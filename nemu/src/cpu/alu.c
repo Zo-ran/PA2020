@@ -7,7 +7,6 @@ uint32_t alu_add(uint32_t src, uint32_t dest, size_t data_size)
 #else
     uint32_t res = 0;
     res = dest + src;
-    
     return res & (0xFFFFFFFF >> (32 - data_size));
     
 #endif
