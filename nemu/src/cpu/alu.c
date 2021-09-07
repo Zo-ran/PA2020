@@ -5,22 +5,12 @@ uint32_t alu_add(uint32_t src, uint32_t dest, size_t data_size)
 #ifdef NEMU_REF_ALU
 	return __ref_alu_add(src, dest, data_size);
 #else
-    /*uint32_t res = 0;
-    res = src + dest;
-    res = res & (0xFFFFFFFF >> (32 - data_size));
-    cpu.eflags.CF = res < src;
+
+    printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
+	fflush(stdout);
+	assert(0);
     
-    int even = 0;
-    uint32_t temp = res;
-    for(int i = 0; i < 7; i++)
-    {
-        even += (temp & 0x00000001);
-        temp >>= 1;
-    }
-    cpu.eflags.PF = 1 - even % 2;*/
-    
-    
-    return res;
+    return 0;
     
 #endif
 }
