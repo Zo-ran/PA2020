@@ -7,8 +7,8 @@ uint32_t alu_add(uint32_t src, uint32_t dest, size_t data_size)
 #else
     uint32_t res = 0;
     res = src + dest;
-    res = res & (0xFFFFFFFF >> (32 - data_size))
-    /*cpu.eflags.CF = result < src;
+    res = res & (0xFFFFFFFF >> (32 - data_size));
+    cpu.eflags.CF = result < src;
     
     int even = 0;
     uint32_t temp = res;
@@ -17,7 +17,7 @@ uint32_t alu_add(uint32_t src, uint32_t dest, size_t data_size)
         even += (temp & 0x00000001);
         temp >>= 1;
     }
-    cpu.eflags.PF = 1 - even % 2;*/
+    cpu.eflags.PF = 1 - even % 2;
     
     
     return res;
