@@ -1,5 +1,16 @@
 #include "cpu/cpu.h"
 
+void set_PF(uint32_t res)
+{
+    int even = 0;
+    for(int i = 0; i < 8; i++)
+    {
+        even += (res & 0x00000001);
+        res >>= 1;
+    }
+    cpu.eflags.PF = 1 - even % 2;
+}
+
 uint32_t alu_add(uint32_t src, uint32_t dest, size_t data_size)
 {
 #ifdef NEMU_REF_ALU
@@ -13,35 +24,15 @@ uint32_t alu_add(uint32_t src, uint32_t dest, size_t data_size)
     cpu.eflags.CF = result < source;
     
 
-    int even = 0;
-    uint32_t temp = res & (0xFFFFFFFF >> (32 - data_size));
-    for(int i = 0; i < 8; i++)
-    {
-        even += (temp & 0x00000001);
-        temp >>= 1;
-    }
-    cpu.eflags.PF = 1 - even % 2;
-    
+    set_PF(result);
     
     cpu.eflags.ZF = (result == 0);
     
     cpu.eflags.SF = sign(result);
     
-    switch(data_size) {
-            case 8: 
-                    res = sign_ext(result & 0xFF, 8); 
-                    src = sign_ext(src & 0xFF, 8); 
-                    dest = sign_ext(dest & 0xFF, 8); 
-                    break;
-            case 16: 
-                    result = sign_ext(result & 0xFFFF, 16); 
-                    src = sign_ext(src & 0xFFFF, 16); 
-                    dest = sign_ext(dest & 0xFFFF, 16); 
-                    break;
-                    default: break;// do nothing
-    }
-    if(sign(src) == sign(dest)) {
-        if(sign(src) != sign(result))
+    dest = sign_ext(dest & (0xFFFFFFFF >> (32 - data_size)), data_size);
+    if(sign(source) == sign(dest)) {
+        if(sign(source) != sign(result))
             cpu.eflags.OF = 1;
         else
             cpu.eflags.OF = 0;
@@ -59,10 +50,31 @@ uint32_t alu_adc(uint32_t src, uint32_t dest, size_t data_size)
 #ifdef NEMU_REF_ALU
 	return __ref_alu_adc(src, dest, data_size);
 #else
-	printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-	fflush(stdout);
-	assert(0);
-	return 0;
+    uint32_t res = src + dest;
+    res = res & (0xFFFFFFFF >> (32 - data_size));
+    res += cpu.eflags.CF;
+    res = sign_ext(res & (0xFFFFFFFF >> (32 - data_size)), data_size);
+	src = sign_ext(src & (0xFFFFFFFF >> (32 - data_size)), data_size);
+	dest = sign_ext(dest & (0xFFFFFFFF >> (32 - data_size)), data_size);
+	
+	set_PF(res);
+	
+	cpu.eflags.ZF = (res == 0);
+	
+	cpu.eflags.CF = (res <= src);
+	
+	cpu.eflags.SF = sign(res);
+	
+	if(sign(src) == sign(dest)) {
+        if(sign(src) != sign(res))
+            cpu.eflags.OF = 1;
+        else
+            cpu.eflags.OF = 0;
+        } else {
+                cpu.eflags.OF = 0;
+        }
+    
+	return res & (0xFFFFFFFF >> (32 - data_size));
 #endif
 }
 
