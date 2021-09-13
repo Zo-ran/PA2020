@@ -180,7 +180,6 @@ int64_t alu_imul(int32_t src, int32_t dest, size_t data_size)
 #endif
 }
 
-// need to implement alu_mod before testing
 uint32_t alu_div(uint64_t src, uint64_t dest, size_t data_size)
 {
 #ifdef NEMU_REF_ALU
@@ -191,7 +190,6 @@ uint32_t alu_div(uint64_t src, uint64_t dest, size_t data_size)
 #endif
 }
 
-// need to implement alu_imod before testing
 int32_t alu_idiv(int64_t src, int64_t dest, size_t data_size)
 {
 #ifdef NEMU_REF_ALU
