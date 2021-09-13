@@ -11,7 +11,8 @@ inline uint32_t internal_normalize(uint32_t sign, int32_t exp, uint64_t sig_grs)
 
 	// normalization
 	bool overflow = false; // true if the result is INFINITY or 0 during normalize
-
+    uint32_t sticky = 0;
+    
 	if ((sig_grs >> (23 + 3)) > 1 || exp < 0)
 	{
 		// normalize toward right
@@ -20,19 +21,16 @@ inline uint32_t internal_normalize(uint32_t sign, int32_t exp, uint64_t sig_grs)
 			   (sig_grs > 0x04 && exp < 0)				   // condition 2
 			   )
 		{
-
-			/* TODO: shift right, pay attention to sticky bit*/
-			printf("\e[0;31mPlease implement me at fpu.c\e[0m\n");
-			fflush(stdout);
-			assert(0);
+		    sticky = sticky | (sig_grs & 0x1);
+		    sig_grs = sig_grs >> 1;
+		    sig_grs |= sticky;
+		    exp++;
 		}
 
 		if (exp >= 0xff)
 		{
-			/* TODO: assign the number to infinity */
-			printf("\e[0;31mPlease implement me at fpu.c\e[0m\n");
-			fflush(stdout);
-			assert(0);
+            sig_grs = 0;
+            exp = 0xff;
 			overflow = true;
 		}
 		if (exp == 0)
@@ -58,32 +56,53 @@ inline uint32_t internal_normalize(uint32_t sign, int32_t exp, uint64_t sig_grs)
 		// normalize toward left
 		while (((sig_grs >> (23 + 3)) == 0) && exp > 0)
 		{
-			/* TODO: shift left */
-			printf("\e[0;31mPlease implement me at fpu.c\e[0m\n");
-			fflush(stdout);
-			assert(0);
+            sig_grs = sig_grs << 1;
+            exp--;
 		}
 		if (exp == 0)
 		{
-			// denormal
-			/* TODO: shift right, pay attention to sticky bit*/
-			printf("\e[0;31mPlease implement me at fpu.c\e[0m\n");
-			fflush(stdout);
-			assert(0);
+            sticky = 0;
+            sticky = sig_grs & 0x1;
+            sig_grs = sig_grs >> 1;
+            sig_grs = sig_grs | sticky;
 		}
 	}
 	else if (exp == 0 && sig_grs >> (23 + 3) == 1)
 	{
-		// two denormals result in a normal
 		exp++;
 	}
 
 	if (!overflow)
 	{
 		/* TODO: round up and remove the GRS bits */
-		printf("\e[0;31mPlease implement me at fpu.c\e[0m\n");
-		fflush(stdout);
-		assert(0);
+		uint32_t judge = sig_grs & (0x7);
+		if(judge < 4){
+		    sig_grs = sig_grs >> 3;
+		}
+		else if(judge > 4){
+		    sig_grs = sig_grs >> 3;
+		    sig_grs += 1;
+		    if((sig_grs >> 23) > 1){
+		        sig_grs = sig_grs >> 1;
+		        exp++;
+		       if (exp >= 0xff){
+                    sig_grs = 0;
+                    exp = 0xff;
+			        overflow = true;
+		        }
+		    }
+		}
+		else{
+		    sig_grs = sig_grs >> 3;
+		    if((sig_grs & 0x1) == 1){
+		        sig_grs++;
+		        if(exp >= 0xff){
+		            sig_grs = 0;
+                    exp = 0xff;
+			        overflow = true;
+		        }
+		    }
+		}
 	}
 
 	FLOAT f;
@@ -152,16 +171,17 @@ uint32_t internal_float_add(uint32_t b, uint32_t a)
 		sig_a |= 0x800000; // the hidden 1
 	sig_b = fb.fraction;
 	if (fb.exponent != 0)
-		sig_b |= 0x800000; // the hidden 1
-
+		sig_b |= 0x800000; // the hidden 1     8bit       1bit        23bit
+    //此时sig_a, sig_b已经带上1, 1.0011;       00000000   1/0     fraction
+	
 	// alignment shift for fa
 	uint32_t shift = 0;
-
+    
 	/* TODO: shift = ? */
-	printf("\e[0;31mPlease implement me at fpu.c\e[0m\n");
-	fflush(stdout);
-	assert(0);
-	assert(shift >= 0);
+	if(fa.exponent == 0 && fb.exponent != 0)
+	    shift = fb.exponent - 1;
+	else
+        shift = fb.exponent - fa.exponent;
 
 	sig_a = (sig_a << 3); // guard, round, sticky
 	sig_b = (sig_b << 3);
@@ -196,8 +216,14 @@ uint32_t internal_float_add(uint32_t b, uint32_t a)
 	{
 		f.sign = 0;
 	}
-
+	f.fval = fa.fval + fb.fval;
 	uint32_t exp_res = fb.exponent;
+	if(f.fval != internal_normalize(f.sign, exp_res, sig_res))
+	{
+	    printf("%f, %f \n", fa.fval, fb.fval);
+	    fflush(stdout);
+	    assert(0);
+	}
 	return internal_normalize(f.sign, exp_res, sig_res);
 }
 
