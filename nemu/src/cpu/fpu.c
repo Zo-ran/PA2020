@@ -35,19 +35,15 @@ inline uint32_t internal_normalize(uint32_t sign, int32_t exp, uint64_t sig_grs)
 		}
 		if (exp == 0)
 		{
-			// we have a denormal here, the exponent is 0, but means 2^-126,
-			// as a result, the significand should shift right once more
-			/* TODO: shift right, pay attention to sticky bit*/
-			printf("\e[0;31mPlease implement me at fpu.c\e[0m\n");
-			fflush(stdout);
-			assert(0);
+            sticky = 0;
+            sticky = sig_grs & 0x1;
+            sig_grs = sig_grs >> 1;
+            sig_grs = sig_grs | sticky;
 		}
 		if (exp < 0)
 		{
-			/* TODO: assign the number to zero */
-			printf("\e[0;31mPlease implement me at fpu.c\e[0m\n");
-			fflush(stdout);
-			assert(0);
+            exp = 0;
+            sig_grs = 0;
 			overflow = true;
 		}
 	}
@@ -96,10 +92,14 @@ inline uint32_t internal_normalize(uint32_t sign, int32_t exp, uint64_t sig_grs)
 		    sig_grs = sig_grs >> 3;
 		    if((sig_grs & 0x1) == 1){
 		        sig_grs++;
-		        if(exp >= 0xff){
-		            sig_grs = 0;
-                    exp = 0xff;
-			        overflow = true;
+		        if((sig_grs >> 23) > 1){
+		            sig_grs = sig_grs >> 1;
+		            exp++;
+    		        if(exp >= 0xff){
+    		            sig_grs = 0;
+                        exp = 0xff;
+    			        overflow = true;
+    		        }
 		        }
 		    }
 		}
@@ -172,7 +172,6 @@ uint32_t internal_float_add(uint32_t b, uint32_t a)
 	sig_b = fb.fraction;
 	if (fb.exponent != 0)
 		sig_b |= 0x800000; // the hidden 1     8bit       1bit        23bit
-    //此时sig_a, sig_b已经带上1, 1.0011;       00000000   1/0     fraction
 	
 	// alignment shift for fa
 	uint32_t shift = 0;
@@ -216,14 +215,8 @@ uint32_t internal_float_add(uint32_t b, uint32_t a)
 	{
 		f.sign = 0;
 	}
-	f.fval = fa.fval + fb.fval;
+	
 	uint32_t exp_res = fb.exponent;
-	if(f.fval != internal_normalize(f.sign, exp_res, sig_res))
-	{
-	    printf("%f, %f \n", fa.fval, fb.fval);
-	    fflush(stdout);
-	    assert(0);
-	}
 	return internal_normalize(f.sign, exp_res, sig_res);
 }
 
@@ -313,9 +306,7 @@ uint32_t internal_float_mul(uint32_t b, uint32_t a)
 	uint32_t exp_res = 0;
 
 	/* TODO: exp_res = ? leave space for GRS bits. */
-	printf("\e[0;31mPlease implement me at fpu.c\e[0m\n");
-	fflush(stdout);
-	assert(0);
+    exp_res = fa.exponent + fb.exponent - 20 - 127;
 	return internal_normalize(f.sign, exp_res, sig_res);
 }
 
