@@ -76,3 +76,18 @@ make_instr_func(mov_srm162r_l) {
 	print_asm_2("mov", "", len, &rm, &r);
         return len;
 }
+
+make_instr_func(mov_i2rm_v) {
+OPERAND rm, imm; // OPERAND定义在nemu/include/cpu/operand.h
+// 看教程§2-1.2.3
+rm.data_size = data_size; // data_size是个全局变量，表示操作数的比特长度
+int len = 1; // opcode 长度1字节
+len += modrm_rm(eip + 1, &rm); // 读ModR/M字节，rm的type和addr会被填写
+imm.type = OPR_IMM; // 填入立即数类型
+imm.addr = eip + len; // 找到立即数的地址
+imm.data_size = data_size;
+operand_read(&imm); // 执行 mov 操作
+rm.val = imm.val;
+operand_write(&rm);
+return len + data_size / 8; // opcode长度 + ModR/M字节扫描长度 + 立即数长度
+}
