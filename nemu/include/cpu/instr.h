@@ -23,6 +23,7 @@ extern uint8_t data_size;
 #include "cpu/instr/x87.h"
 
 /* TODO: add more instructions here */
+make_instr_func(cmp_i2rm_b);
 
 #include "cpu/instr/adc.h"
 #include "cpu/instr/add.h"
