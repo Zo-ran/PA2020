@@ -1,4 +1,11 @@
 #include "cpu/instr.h"
-/*
-Put the implementations of `add' instructions here.
-*/
+#include"cpu/alu.h"
+
+static void instr_execute_2op()
+{
+    operend_read(&opr_src);
+    operend_read(&opr_dest);
+    opr_dest.val = alu_add(opr_src.val, opr_dest.val, opr_src.data_size);
+}
+
+make_instr_impl_2op(add, r, rm, v)
