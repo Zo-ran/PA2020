@@ -7,4 +7,9 @@ static void instr_execute_2op(){
     alu_sub(opr_dest.val, opr_src.val, opr_src.data_size);
 }
 
-make_group_impl(cmp_r2rm_b)
+make_instr_impl_2op(cmp, r, rm, b)
+make_instr_impl_2op(cmp, r, rm, v)
+make_instr_impl_2op(cmp, rm, r, b)
+make_instr_impl_2op(cmp, rm, r, v)
+make_instr_impl_2op(cmp, i, a, b)
+make_instr_impl_2op(cmp, i, a, v)
