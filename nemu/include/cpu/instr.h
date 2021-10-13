@@ -23,7 +23,6 @@ extern uint8_t data_size;
 #include "cpu/instr/x87.h"
 
 /* TODO: add more instructions here */
-int cmp_i2rm_b(uint32_t eip, uint8_t opcode);
 
 #include "cpu/instr/adc.h"
 #include "cpu/instr/add.h"
