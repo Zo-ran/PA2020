@@ -3,5 +3,5 @@
 /*
 Put the declarations of `call' instructions here.
 */
-int call_ner(uint32_t eip, uint8_t opcode);
+int fuck(uint32_t eip, uint8_t opcode);
 #endif
