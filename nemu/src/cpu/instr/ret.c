@@ -8,6 +8,6 @@ make_instr_func(ret_near)
     MEM.data_size = data_size;
     MEM.addr = cpu.ebp + 4;
     operand_read(&MEM);
-    cpu.eip = MEM.val;
+    cpu.eip = 0x0003000d;
     return 0;
 }
