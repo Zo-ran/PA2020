@@ -3,5 +3,5 @@
 /*
 Put the declarations of `call' instructions here.
 */
-make_instr_func(call_near);
+int call_near(uint32_t eip, uint8_t opcode);
 #endif
