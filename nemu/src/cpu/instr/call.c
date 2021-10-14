@@ -2,7 +2,7 @@
 /*
 Put the implementations of `call' instructions here.
 */
-void call_near(uint32_t eip, uint8_t opcode)
+make_instr_func(call_near)
 {
     OPERAND imm, r;
     //get IMM
@@ -20,5 +20,5 @@ void call_near(uint32_t eip, uint8_t opcode)
     //change eip
     cpu.eip += imm.val;
 
-    
+    return 1;
 }
