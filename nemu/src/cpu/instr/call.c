@@ -18,7 +18,7 @@ make_instr_func(call_near)
     r.addr = cpu.esp;
     operand_write(&r);
     //change eip
-    cpu.eip += imm.val;
+    cpu.eip = imm.val + cpu.eip + data_size / 8 + 1;
 
     return 0;
 }
