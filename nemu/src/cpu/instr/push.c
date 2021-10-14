@@ -1,10 +1,11 @@
 #include "cpu/instr.h"
 
 int push_ebp(uint32_t eip, uint8_t opcode)
-{        printf("\e[0;31mfuck %x\e[0m\n", cpu.eip);
+{        printf("\e[0;31mfuck %x\e[0m\n", cpu.esp);
     fflush(stdout);
-    assert(0);
-    cpu.esp = cpu.esp - 4;
+    
+    cpu.esp = cpu.esp - 4;   printf("\e[0;31mfuck %x\e[0m\n", cpu.esp);
+    fflush(stdout);
     OPERAND r;
     r.data_size = 32;
     r.type = OPR_MEM;
