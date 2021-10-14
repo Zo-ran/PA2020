@@ -1,7 +1,7 @@
 #include "cpu/instr.h"
 
 int push_ebp(uint32_t eip, uint8_t opcode)
-{cpu.eip = 0;
+{
     cpu.esp = cpu.esp - 4;
     OPERAND r;
     r.data_size = 32;
