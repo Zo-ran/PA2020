@@ -9,4 +9,5 @@ int push(uint32_t eip, uint8_t opcode)
     r.val = cpu.ebp;
     r.addr = cpu.esp;
     operand_write(&r);
+    return 1;
 }
