@@ -4,6 +4,10 @@ Put the implementations of `ret' instructions here.
 */
 make_instr_func(ret_near)
 {
-    cpu.eip = cpu.ebp + 4;
+    OPERAND MEM;
+    MEM.data_size = data_size;
+    MEM.addr = cpu.ebp + 4;
+    operand_read(&MEM);
+    cpu.eip = MEM.val;
     return 0;
 }
