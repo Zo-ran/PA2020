@@ -1,6 +1,6 @@
 #include "cpu/instr.h"
 
-int push(uint32_t eip, uint8_t opcode)
+int push_ebp(uint32_t eip, uint8_t opcode)
 {
     cpu.esp = cpu.esp - 4;
     OPERAND r;
