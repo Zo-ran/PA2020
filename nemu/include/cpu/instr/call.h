@@ -3,6 +3,5 @@
 /*
 Put the declarations of `call' instructions here.
 */
-asdasdiiiii
-int call_near(uint32_t eip, uintasdasd8_t opcode);
+int call_(uint32_t eip, uint8_t opcode);
 #endif
