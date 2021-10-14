@@ -9,5 +9,8 @@ int push_ebp(uint32_t eip, uint8_t opcode)
     r.val = cpu.ebp;
     r.addr = cpu.esp;
     operand_write(&r);
+        printf("\e[0;31mfuck %x\e[0m\n", cpu.ebp);
+    fflush(stdout);
+    assert(0);
     return 1;
 }
