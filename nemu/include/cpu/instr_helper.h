@@ -170,31 +170,31 @@ static inline bool inv_cc();
 	cpu.eflags.ZF
 
 #define condition_a \
-	inv_cc()
+	(cpu.eflags.CF == 0 && cpu.eflags.ZF == 0)
 
 #define condition_ae \
-	inv_cc()
+	(cpu.eflags.CF == 0)
 
 #define condition_b \
-	inv_cc()
+	(cpu.eflags.CF == 1)
 
 #define condition_be \
-	inv_cc()
+	(cpu.eflags.CF == 1 || cpu.eflags.ZF == 1)
 
 #define condition_o \
-	inv_cc()
+	(cpu.eflags.OF == 1)
 
 #define condition_p \
-	inv_cc()
+	(cpu.eflags.PF == 1)
 
 #define condition_s \
-	inv_cc()
+	(cpu.eflags.SF == 1)
 
 #define condition_ne \
-	(!cpu.eflags.ZF)
+	(cpu.eflags.ZF == 0)
 
 #define condition_na \
-	inv_cc()
+	(cpu.eflags.CF == 1 || cpu.eflags.ZF == 1)
 
 #define condition_no \
 	inv_cc()
