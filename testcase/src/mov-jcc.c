@@ -18,6 +18,7 @@ int main()
 	nemu_assert(A[1] >= 1);
 	nemu_assert(A[2] <= 2);
 	printf("\e[0;31m\n!!!!%d \n !!!\e[0m\n", A[2]);
+	assert(0);
 	HIT_GOOD_TRAP;
 	nemu_assert(A[3] > 2);
 	nemu_assert(A[4] < 5);
