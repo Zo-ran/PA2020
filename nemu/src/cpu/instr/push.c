@@ -12,4 +12,4 @@ int push_ebp(uint32_t eip, uint8_t opcode)
     return 1;
 }
 
-make_instr_impl_1op(push, i, b)
+//make_instr_impl_1op(push, i, b)
