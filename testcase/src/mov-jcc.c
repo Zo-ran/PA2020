@@ -15,6 +15,7 @@ int main()
 	A[5] = b;
 
 	nemu_assert(A[0] == 0);
+	HIT_GOOD_TRAP;
 	nemu_assert(A[1] >= 1);
 	nemu_assert(A[2] <= 2);
 	nemu_assert(A[3] > 2);
@@ -22,7 +23,7 @@ int main()
 	nemu_assert(b == 3);
 	nemu_assert(A[5] != 6);
 
-	HIT_GOOD_TRAP;
+	
 
 	return 0;
 }
