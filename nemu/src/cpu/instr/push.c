@@ -11,3 +11,5 @@ int push_ebp(uint32_t eip, uint8_t opcode)
     operand_write(&r);
     return 1;
 }
+
+make_instr_impl_1op(push, i, b)

@@ -10,7 +10,8 @@ make_instr_func(ret_near)
     MEM.addr = cpu.esp;
     operand_read(&MEM);
     
-    cpu.eip = MEM.val;
+    cpu.eip = MEM.val & (0xFFFFFFFF >> (32 - data_size));
+    cpu.esp += data_size / 8;
 
     return 0;
 }
