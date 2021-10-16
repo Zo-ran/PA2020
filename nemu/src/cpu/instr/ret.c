@@ -11,7 +11,7 @@ make_instr_func(ret_near)
     operand_read(&MEM);
 
     cpu.eip = MEM.val;
-    printf("\e[0;31mfuck %x\e[0m\n", eip);
+    printf("\e[0;31mfuck %x\e[0m\n", cpu.eip);
     fflush(stdout);
     assert(0);
     return 0;
