@@ -4,7 +4,6 @@ Put the implementations of `call' instructions here.
 */
 make_instr_func(call_near)
 {
-    
     OPERAND imm, r;
     //get IMM
     imm.type = OPR_IMM;
