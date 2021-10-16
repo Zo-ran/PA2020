@@ -11,8 +11,6 @@ make_instr_func(ret_near)
     operand_read(&MEM);
     
     cpu.eip = MEM.val;
-    printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-    assert(0);
 
     return 0;
 }
