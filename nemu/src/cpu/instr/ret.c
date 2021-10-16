@@ -9,9 +9,10 @@ make_instr_func(ret_near)
     MEM.type = OPR_MEM;
     MEM.addr = cpu.esp;
     operand_read(&MEM);
+
+    cpu.eip = MEM.val;
     printf("\e[0;31mfuck %x\e[0m\n", eip);
     fflush(stdout);
     assert(0);
-    cpu.eip = MEM.val;
     return 0;
 }
