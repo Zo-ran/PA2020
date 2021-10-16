@@ -1,15 +1,16 @@
 #include "cpu/instr.h"
 
-int push_ebp(uint32_t eip, uint8_t opcode)
-{  
-    cpu.esp = cpu.esp - 4;
-    OPERAND r;
-    r.data_size = 32;
-    r.type = OPR_MEM;
-    r.val = cpu.ebp;
-    r.addr = cpu.esp;
-    operand_write(&r);
-    return 1;
+static void instr_execute_1op(){
+    
+    cpu.esp -= data_size / 8;
+    
+    opr_dest.type = OPR_MEM;
+    opr_dest.data_size = data_size;
+    opr_dest.addr = cpu.esp;
+    
+    operand_read(&opr_src);
+    opr_dest.val = sign_ext(opr_src.val, data_size);
+    operand_write(&opr_dest);
 }
 
-//make_instr_impl_1op(push, i, b)
+make_instr_impl_1op(push, r, v)
