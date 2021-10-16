@@ -14,6 +14,6 @@ make_instr_func(ret_near)
     cpu.esp += data_size / 8;
 printf("\e[0;31m fuck fuck \e[0m\n");
 assert(0);
-return 0
+return 0;
     return 0;
 }
