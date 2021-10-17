@@ -5,7 +5,7 @@ make_instr_func(jmp_near)
         OPERAND rel;
         rel.type = OPR_IMM;
         rel.sreg = SREG_CS;
-        rel.data_size = data_size;
+        rel.data_size = 16;
         rel.addr = eip + 1;
 
         operand_read(&rel);
@@ -17,4 +17,12 @@ make_instr_func(jmp_near)
         cpu.eip += offset;
 
         return 1 + data_size / 8;
+}
+
+
+make_instr_func(jmp_short)
+{
+    OPERAND rel;
+    rel.type = OPR_IMM;
+    rel.data_size = 8;
 }
