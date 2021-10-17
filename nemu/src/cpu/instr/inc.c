@@ -11,6 +11,7 @@ make_instr_func(inc_r_v)
     r.addr = opcode & 0x7;
     int temp = cpu.eflags.CF;
     
+    operand_read(&r);
     r.val = alu_add(r.val, 1, r.data_size);
     operand_write(&r);
     cpu.eflags.CF = temp;
