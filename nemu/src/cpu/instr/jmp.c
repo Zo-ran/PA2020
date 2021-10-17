@@ -22,7 +22,8 @@ make_instr_func(jmp_near)
 
 make_instr_func(jmp_short)
 {
-    OPERAND rel;
+    /*OPERAND rel;
     rel.type = OPR_IMM;
-    rel.data_size = 8;
+    rel.data_size = 8;*/
+    return 0;
 }
