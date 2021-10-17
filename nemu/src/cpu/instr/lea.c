@@ -8,9 +8,9 @@ make_instr_func(lea)
     m.data_size = r.data_size = data_size;
     int len = 1;
     len += modrm_r_rm(eip + 1, &r, &m);
-    operand_read(&m);
+    operand_read(&r);
     r.val = m.val;
-    operand_write(&r);
+    operand_write(&m);
     
     return len;
      
