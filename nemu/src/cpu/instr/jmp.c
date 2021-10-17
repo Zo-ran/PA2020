@@ -15,7 +15,7 @@ make_instr_func(jmp_near)
         print_asm_1("jmp", "", 1 + data_size / 8, &rel);
 
         cpu.eip += offset;
-        
+
         return 1 + data_size / 8;
 }
 
@@ -32,7 +32,7 @@ make_instr_func(jmp_short)
     int offset = sign_ext(rel.val, 8);
     cpu.eip += offset;
     
-    printf("\e[0;31mfuck !! %d\e[0m\n", cpu.eip + 2);
+    printf("\e[0;31mfuck !! %X\e[0m\n", cpu.eip + 2);
     fflush(stdout);
     assert(0);
     return 2;
