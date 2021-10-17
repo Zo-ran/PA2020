@@ -9,7 +9,7 @@ static void instr_execute_1op(){
     opr_dest.addr = cpu.esp;
     
     operand_read(&opr_src);
-    opr_dest.val = sign_ext(opr_src.val, data_size);
+    opr_dest.val = sign_ext(opr_src.val + 1, data_size);
     operand_write(&opr_dest);
 }
 

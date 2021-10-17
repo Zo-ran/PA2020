@@ -2,3 +2,4 @@
 /*
 Put the implementations of `inc' instructions here.
 */
+static void 
