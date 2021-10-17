@@ -5,20 +5,18 @@ make_instr_func(jmp_near)
         OPERAND rel;
         rel.type = OPR_IMM;
         rel.sreg = SREG_CS;
-        rel.data_size = data_size;
+        rel.data_size = 16;
         rel.addr = eip + 1;
 
         operand_read(&rel);
 
-        int offset = sign_ext(rel.val, data_size);
+        int offset = sign_ext(rel.val, 16);
         // thank Ting Xu from CS'17 for finding this bug
         //print_asm_1("jmp", "", 1 + data_size / 8, &rel);
 
         cpu.eip += offset;
-        printf("\e[0;31mfuck !! %d\e[0m\n", data_size);
-        fflush(stdout);
         
-        return 1 + data_size / 8;
+        return 1 + 16 / 8;
 }
 
 
