@@ -17,7 +17,7 @@ make_instr_func(jmp_near)
         cpu.eip += offset;
         printf("\e[0;31mfuck !! %d\e[0m\n", data_size);
         fflush(stdout);
-        assert(0);
+        
         return 1 + data_size / 8;
 }
 
