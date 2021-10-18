@@ -5,8 +5,6 @@ Put the implementations of `call' instructions here.
 
 make_instr_func(call_near)
 {
-    printf("\e[0;31meip 0: %X \e[0m\n", cpu.eip);
-    fflush(stdout);
     OPERAND imm, m;
     //get IMM
     imm.type = OPR_IMM;
