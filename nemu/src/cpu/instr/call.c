@@ -25,7 +25,7 @@ make_instr_func(call_near)
     fflush(stdout);
     operand_write(&r);
     
-    OPERADN m;
+    OPERAND m;
     m.type = OPR_MEM;
     m.addr = cpu.esp;
     operand_read(&m);
