@@ -12,13 +12,6 @@ make_instr_func(call_near)
     imm.addr = cpu.eip + 1;
     operand_read(&imm);
     
-    
-    m.data_size = data_size;
-    m.type = OPR_MEM;
-    m.addr = cpu.esp - data_size / 8;
-    operand_read(&m);
-    printf("\e[0;31mmemory0 : %X \e[0m\n", m.val);
-    fflush(stdout);
     //push eip
     cpu.esp = cpu.esp - data_size / 8;
     printf("\e[0;31mesp : %X \e[0m\n", cpu.esp);
