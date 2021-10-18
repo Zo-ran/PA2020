@@ -24,13 +24,24 @@ make_instr_func(call_near)
     printf("\e[0;31meip 1: %X \e[0m\n", cpu.eip);
     fflush(stdout);
     operand_write(&r);
+    
+    OPERADN m;
+    m.type = OPR_MEM;
+    m.addr = cpu.esp;
+    operand_read(&m);
+    printf("\e[0;31memory : %X \e[0m\n", m.val);
+    fflush(stdout);
     printf("\e[0;31meip 2: %X \e[0m\n", cpu.eip);
     fflush(stdout);
+    
+    
+    
+    
     printf("\e[0;31mimm: %X \e[0m\n", imm.val);
     fflush(stdout);
+    
+    
     //change eip
     cpu.eip = imm.val + cpu.eip + data_size / 8 + 1;
-    printf("\e[0;31meip 3: %X \e[0m\n", cpu.eip);
-    fflush(stdout);
     return 0;
 }
