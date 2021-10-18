@@ -27,7 +27,7 @@ make_instr_func(call_near)
     printf("\e[0;31mimm: %X \e[0m\n", imm.val);
     fflush(stdout);
     //change eip
-    cpu.eip = imm.val + cpu.eip + data_size / 8 + 1;
+    cpu.eip = imm.val + eip + data_size / 8 + 1;
     printf("\e[0;31meip 3: %X \e[0m\n", cpu.eip);
     fflush(stdout);
     return 0;
