@@ -19,9 +19,10 @@ make_instr_func(call_near)
     r.type = OPR_MEM;
     r.val = cpu.eip + data_size / 8 + 1;
     r.addr = cpu.esp;
-    operand_write(&r);
     printf("\e[0;31meip before: %X \e[0m\n", cpu.eip);
     fflush(stdout);
+    operand_write(&r);
+    
     printf("\e[0;31mimm: %X \e[0m\n", imm.val);
     fflush(stdout);
     //change eip
