@@ -4,7 +4,7 @@ Put the implementations of `call' instructions here.
 */
 make_instr_func(call_near)
 {
-    printf("\e[0;31meip 1: %X \e[0m\n", cpu.eip);
+    printf("\e[0;31meip 0: %X \e[0m\n", cpu.eip);
     fflush(stdout);
     OPERAND imm, r;
     //get IMM
@@ -19,6 +19,8 @@ make_instr_func(call_near)
     r.type = OPR_MEM;
     r.val = cpu.eip + data_size / 8 + 1;
     r.addr = cpu.esp;
+    printf("\e[0;31meip 1: %X \e[0m\n", cpu.eip);
+    fflush(stdout);
     operand_write(&r);
     printf("\e[0;31meip 2: %X \e[0m\n", cpu.eip);
     fflush(stdout);
