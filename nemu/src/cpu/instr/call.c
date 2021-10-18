@@ -21,7 +21,8 @@ make_instr_func(call_near)
     r.val = cpu.eip + data_size / 8 + 1;
     r.addr = cpu.esp;
     operand_write(&r);
-    
+    printf("\e[0;31r: %X!!! \e[0m\n", r.val);
+    fflush(stdout);
     //change eip
     cpu.eip = imm.val + cpu.eip + data_size / 8 + 1;
     printf("\e[0;31mfuck %X!!! \e[0m\n", cpu.eip);
