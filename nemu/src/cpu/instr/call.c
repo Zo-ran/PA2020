@@ -19,15 +19,12 @@ make_instr_func(call_near)
     fflush(stdout);
     r.data_size = 32;
     r.type = OPR_MEM;
-    if(eip == 0x30108)
-        r.val = 0x12121212;
-    else  
-        r.val = cpu.eip + data_size / 8 + 1;
+    r.val = cpu.eip + data_size / 8 + 1;
     r.addr = cpu.esp;
     printf("\e[0;31meip 1: %X \e[0m\n", cpu.eip);
     fflush(stdout);
     operand_write(&r);
-    printf("\e[0;31meip 2: %X \e[0m\n", r.val);
+    printf("\e[0;31meip 2: %X \e[0m\n", cpu.eip);
     fflush(stdout);
     printf("\e[0;31mimm: %X \e[0m\n", imm.val);
     fflush(stdout);
