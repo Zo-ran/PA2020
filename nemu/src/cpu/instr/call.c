@@ -20,5 +20,5 @@ make_instr_func(call_near)
     //change eip
     cpu.eip = imm.val + cpu.eip + data_size / 8 + 1;
 
-    return 0;
+    return data_size / 8 + 1;
 }
