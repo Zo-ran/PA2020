@@ -2,11 +2,12 @@
 /*
 Put the implementations of `call' instructions here.
 */
+
 make_instr_func(call_near)
 {
     printf("\e[0;31meip 0: %X \e[0m\n", cpu.eip);
     fflush(stdout);
-    OPERAND imm, r;
+    OPERAND imm, m;
     //get IMM
     imm.type = OPR_IMM;
     imm.data_size = data_size;
@@ -15,25 +16,24 @@ make_instr_func(call_near)
     
     //push eip
     cpu.esp = cpu.esp - data_size / 8;
-    printf("\e[0;31mesp 1: %X \e[0m\n", cpu.esp);
+    printf("\e[0;31mesp : %X \e[0m\n", cpu.esp);
     fflush(stdout);
-    r.data_size = data_size;
-    r.type = OPR_MEM;
-    r.val = cpu.eip + data_size / 8 + 1;
-    r.addr = cpu.esp;
-    printf("\e[0;31meip 1: %X \e[0m\n", cpu.eip);
-    fflush(stdout);
-    operand_write(&r);
-    
-    OPERAND m;
     m.data_size = data_size;
     m.type = OPR_MEM;
+    m.val = cpu.eip + data_size / 8 + 1;
+    m.addr = cpu.esp;
+    printf("\e[0;31meip 1: %X \e[0m\n", cpu.eip);
+    fflush(stdout);
+    operand_write(&m);
+    printf("\e[0;31meip 2: %X \e[0m\n", cpu.eip);
+    fflush(stdout);
+
+
     m.addr = cpu.esp;
     operand_read(&m);
     printf("\e[0;31mmemory : %X \e[0m\n", m.val);
     fflush(stdout);
-    printf("\e[0;31meip 2: %X \e[0m\n", cpu.eip);
-    fflush(stdout);
+
     
     printf("\e[0;31mimm: %X \e[0m\n", imm.val);
     fflush(stdout);
