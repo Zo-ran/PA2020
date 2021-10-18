@@ -15,6 +15,8 @@ make_instr_func(call_near)
     
     //push eip
     cpu.esp = cpu.esp - 4;
+    printf("\e[0;31mesp 1: %X \e[0m\n", cpu.esp);
+    fflush(stdout);
     r.data_size = 32;
     r.type = OPR_MEM;
     r.val = cpu.eip + data_size / 8 + 1;
