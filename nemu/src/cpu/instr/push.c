@@ -13,7 +13,6 @@ static void instr_execute_1op(){
     operand_write(&opr_dest);
 }
 
-make_instr_impl_1op(push, i, b)
 make_instr_impl_1op(push, rm, v)
 
 make_instr_func(push_r_v)
@@ -32,4 +31,22 @@ make_instr_func(push_r_v)
     m.val = r.val & (0xFFFFFFFF >> (32 - data_size));
     operand_write(&m);
     return 1;
+}
+
+make_instr_func(push_i_b)
+{
+    cpu.esp -= 4;
+    
+    OPERAND imm, m;
+    imm.type = OPR_IMM;
+    imm.data_size = 8;
+    imm.addr = eip + 1;
+    m.type = OPR_MEM;
+    m.data_size = data_size;
+    m.addr = cpu.esp;
+    
+    operand_read(&imm);
+    m.val = sign_ext(imm.val, 8);
+    operand_write(&m);
+    return 2;
 }
