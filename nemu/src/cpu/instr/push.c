@@ -13,11 +13,10 @@ static void instr_execute_1op(){
     operand_write(&opr_dest);
 }
 
-make_instr_impl_1op(push, r, v)
 make_instr_impl_1op(push, i, b)
 make_instr_impl_1op(push, rm, v)
 
-/*make_instr_func(push_r_v)
+make_instr_func(push_r_v)
 {
     cpu.esp -= 4;
     
@@ -33,4 +32,4 @@ make_instr_impl_1op(push, rm, v)
     m.val = r.val & (0xFFFFFFFF >> (32 - data_size));
     operand_write(&m);
     return 1;
-}*/
+}
