@@ -25,11 +25,11 @@ make_instr_func(call_near)
     fflush(stdout);
     operand_write(&r);
     
-    /*OPERAND m;
+    OPERAND m;
     m.type = OPR_MEM;
     m.addr = cpu.esp;
     operand_read(&m);
-    printf("\e[0;31m memory : %X \e[0m\n", m.val);
+    /*printf("\e[0;31m memory : %X \e[0m\n", m.val);
     fflush(stdout);*/
     printf("\e[0;31meip 2: %X \e[0m\n", cpu.eip);
     fflush(stdout);
