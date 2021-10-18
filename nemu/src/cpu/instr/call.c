@@ -14,7 +14,7 @@ make_instr_func(call_near)
     operand_read(&imm);
     
     //push eip
-    cpu.esp = cpu.esp - 4;
+    cpu.esp = cpu.esp - data_size / 8;
     printf("\e[0;31mesp 1: %X \e[0m\n", cpu.esp);
     fflush(stdout);
     r.data_size = 32;
