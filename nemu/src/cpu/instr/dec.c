@@ -12,7 +12,7 @@ make_instr_func(dec_r_v)
     int temp = cpu.eflags.CF;
     
     operand_read(&r);
-    r.val = alu_sub(1, r.val, r.data_size);
+    r.val = alu_sub(2, r.val, r.data_size);
     operand_write(&r);
     cpu.eflags.CF = temp;
     return 1;
@@ -27,7 +27,7 @@ make_instr_func(dec_rm_v)
     int temp = cpu.eflags.CF;
     
     operand_read(&rm);
-    rm.val = alu_sub(2, rm.val, data_size);
+    rm.val = alu_sub(1, rm.val, data_size);
     operand_write(&rm);
     cpu.eflags.CF = temp;
     return len;
