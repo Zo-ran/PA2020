@@ -4,6 +4,8 @@ Put the implementations of `call' instructions here.
 */
 make_instr_func(call_near)
 {
+    printf("\e[0;31mfuck %X!!! \e[0m\n", cpu.eip);
+    fflush(stdout);
     OPERAND imm, r;
     //get IMM
     imm.type = OPR_IMM;
@@ -19,7 +21,7 @@ make_instr_func(call_near)
     operand_write(&r);
     //change eip
     cpu.eip = imm.val + cpu.eip + data_size / 8 + 1;
-    /*printf("\e[0;31mfuck %X!!! \e[0m\n", cpu.eip);
-    fflush(stdout);*/
+    printf("\e[0;31mfuck %X!!! \e[0m\n", cpu.eip);
+    fflush(stdout);
     return 0;
 }
