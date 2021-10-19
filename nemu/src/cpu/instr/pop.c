@@ -12,9 +12,9 @@ make_instr_func(pop_r_v)
     m.data_size = data_size;
     m.addr = cpu.esp;
     
-    operand_read(&r);
-    m.val = r.val & (0xFFFFFFFF >> (32 - data_size));
-    operand_write(&m);
+    operand_read(&m);
+    r.val = m.val & (0xFFFFFFFF >> (32 - data_size));
+    operand_write(&r);
     
     cpu.esp += 4;
     return 1;
