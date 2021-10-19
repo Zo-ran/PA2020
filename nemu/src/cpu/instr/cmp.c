@@ -43,7 +43,7 @@ make_instr_func(cmp_i2rm_bv)
     imm.addr = eip + len;
     operand_read(&imm);
     operand_read(&rm);
-    imm.val = sign_ext(imm.val & 0xFF, data_size);
+    imm.val = sign_ext(imm.val & 0xFF, 8);
     printf("\e[0;31mimm: %x\e[0m\n", imm.val);
     fflush(stdout);
     
