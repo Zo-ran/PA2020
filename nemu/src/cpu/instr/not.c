@@ -19,7 +19,7 @@ make_instr_func(not_rm_v)
     OPERAND rm;
     rm.data_size = data_size;
     len += modrm_rm(eip + 1, &rm);
-    rm.val = sign_ext(~rm.val & (0xFFFFFFFF >> (32 - data_size), data_size);
+    rm.val = sign_ext(~rm.val & (0xFFFFFFFF >> (32 - data_size)), data_size);
     operand_write(&rm);
     return len;
 }
