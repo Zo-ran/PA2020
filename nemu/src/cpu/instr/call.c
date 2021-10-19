@@ -14,9 +14,9 @@ make_instr_func(call_near)
     
     //push eip
     cpu.esp = cpu.esp - 4;
-    m.data_size = data_size;
+    m.data_size = 32;
     m.type = OPR_MEM;
-    m.val = cpu.eip + data_size / 8 + 1;
+    m.val = cpu.eip + 5;
     m.addr = cpu.esp;
     operand_write(&m);
     
