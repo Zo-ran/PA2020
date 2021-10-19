@@ -13,7 +13,7 @@ make_instr_func(pop_r_v)
     m.addr = cpu.esp;
     
     operand_read(&m);
-    r.val = m.val & (0xFFFFFFFF >> (32 - data_size));
+    r.val = m.val ;
     operand_write(&r);
     
     cpu.esp += 4;
