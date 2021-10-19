@@ -35,6 +35,7 @@ make_instr_func(and_i2rm_bv)
     operand_read(&imm);
     operand_read(&rm);
     imm.val = sign_ext(imm.val & 0xFF, 8);
+    rm.val = sign_ext(rm.val, data_size);
   
     rm.val = alu_and(imm.val, rm.val, data_size);
     operand_write(&rm);
