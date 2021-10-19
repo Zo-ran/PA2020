@@ -18,7 +18,7 @@ make_instr_impl_2op(cmp, r, rm, v)
 make_instr_impl_2op(cmp, rm, r, b)
 make_instr_impl_2op(cmp, rm, r, v)
 
-make_instr_func(cmp_i_a_b)
+make_instr_func(cmp_i2a_b)
 {
     OPERAND imm;
     imm.type = OPR_IMM;
