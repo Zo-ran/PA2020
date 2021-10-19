@@ -11,10 +11,21 @@ static void instr_execute_2op(){
 
 make_instr_impl_2op(cmp, i, rm, v)
 make_instr_impl_2op(cmp, i, rm, b)
-make_instr_impl_2op(cmp, i, a, b)
 make_instr_impl_2op(cmp, i, a, v)
 make_instr_impl_2op(cmp, i, rm, bv)
 make_instr_impl_2op(cmp, r, rm, b)
 make_instr_impl_2op(cmp, r, rm, v)
 make_instr_impl_2op(cmp, rm, r, b)
 make_instr_impl_2op(cmp, rm, r, v)
+
+make_instr_func(cmp_i_a_b)
+{
+    OPERAND imm;
+    imm.type = OPR_IMM;
+    imm.addr = eip + 1;
+    imm.data_size = 8;
+    operand_read(&imm);
+    
+    alu_sub(imm.val, cpu.eax & 0xFF, 8);
+    return 2;
+}
