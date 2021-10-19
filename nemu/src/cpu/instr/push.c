@@ -31,7 +31,7 @@ make_instr_func(push_i_b)
     m.addr = cpu.esp;
     
     operand_read(&imm);
-    m.val = sign_ext(imm.val, 8);
+    m.val = sign_ext(imm.val & 0xFF, 8);
     operand_write(&m);
     return 2;
 }
