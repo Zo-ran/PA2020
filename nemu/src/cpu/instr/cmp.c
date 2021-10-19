@@ -11,6 +11,7 @@ static void instr_execute_2op(){
 
 make_instr_impl_2op(cmp, i, rm, v)
 make_instr_impl_2op(cmp, i, rm, b)
+make_instr_impl_2op(cmp, i, rm, bv);
 make_instr_impl_2op(cmp, i, a, v)
 make_instr_impl_2op(cmp, r, rm, b)
 make_instr_impl_2op(cmp, r, rm, v)
@@ -29,7 +30,7 @@ make_instr_func(cmp_i2a_b)
     return 2;
 }
 
-make_instr_func(cmp_i2rm_bv)
+/*make_instr_func(cmp_i2rm_bv)
 {
     int len = 1;
     OPERAND imm, rm;
@@ -45,4 +46,4 @@ make_instr_func(cmp_i2rm_bv)
     
     alu_sub(imm.val, rm.val, data_size);
     return len + 1;
-}
+}*/
