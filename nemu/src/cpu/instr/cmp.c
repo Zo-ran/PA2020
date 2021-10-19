@@ -26,7 +26,7 @@ make_instr_func(cmp_i2a_b)
     imm.data_size = 8;
     operand_read(&imm);
     
-    alu_sub(imm.val, cpu.eax, 32);
+    alu_sub(imm.val, cpu.eax, 8);
     return 2;
 }
 
