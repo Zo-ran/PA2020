@@ -13,7 +13,7 @@ make_instr_func(push_r_v)
     m.addr = cpu.esp;
     
     operand_read(&r);
-    m.val = r.val & (0xFFFFFFFF >> (32 - data_size));
+    m.val = sign_ext(r.val & (0xFFFFFFFF >> (32 - data_size)), data_size);
     operand_write(&m);
     return 1;
 }
