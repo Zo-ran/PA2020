@@ -4,7 +4,7 @@ Put the implementations of `pop' instructions here.
 */
 make_instr_func(pop_r_v)
 {
-    OPERAND r, m;
+    /*OPERAND r, m;
     r.type = OPR_REG;
     r.data_size = data_size;
     r.addr = opcode & 0x7;
@@ -16,6 +16,6 @@ make_instr_func(pop_r_v)
     r.val = sign_ext(m.val & (0xFFFFFFFF >> (32 - data_size)), data_size);
     operand_write(&r);
     
-    cpu.esp += 4;
+    cpu.esp += 4;*/
     return 1;
 }
