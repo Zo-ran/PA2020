@@ -42,6 +42,7 @@ make_instr_func(cmp_i2rm_bv)
     imm.data_size = 8;
     imm.addr = eip + len;
     operand_read(&imm);
+    operand_read(&rm);
     imm.val = sign_ext(imm.val, data_size);
     
     alu_sub(imm.val, rm.val, data_size);
