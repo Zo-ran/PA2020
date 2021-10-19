@@ -44,8 +44,8 @@ make_instr_func(cmp_i2rm_bv)
     operand_read(&imm);
     operand_read(&rm);
     imm.val = sign_ext(imm.val & 0xFF, 8);
-    printf("\e[0;31mimm: %x\e[0m\n", imm.val);
-    fflush(stdout);
+   /* printf("\e[0;31mimm: %x\e[0m\n", imm.val);
+    fflush(stdout);*/
     
     alu_sub(imm.val, rm.val, data_size);
     return len + 1;
