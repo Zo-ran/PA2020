@@ -36,7 +36,7 @@ void quick_sort(int *a, int p, int q)
 int main()
 {
 	quick_sort(a, 0, N - 1);
-nemu_assert(a[0] == 84);
+    nemu_assert(a[0] == 84);
 // 	int i;
 // 	for (i = 0; i < N; i++)
 // 	{
