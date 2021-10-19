@@ -47,7 +47,7 @@ make_instr_func(push_rm_v)
     m.addr = cpu.esp;
     m.type = OPR_MEM;
     m.data_size = data_size;
-    m.val = rm.val;
+    m.val = rm.val & (0xFFFFFFFF >> (32 - data_size));
     
     operand_write(&m);
     return len;
