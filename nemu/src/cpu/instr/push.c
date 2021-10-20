@@ -47,12 +47,9 @@ make_instr_func(push_rm_v)
     m.addr = cpu.esp;
     m.type = OPR_MEM;
     m.data_size = data_size;
-    m.val = rm.val;
-    /*printf("\e[0;31mrm.addr: %x\e[0m\n", rm.addr);
-    fflush(stdout);
-    printf("\e[0;31mm.val: %x\e[0m\n", m.val);
-    fflush(stdout);
-    assert(0);*/
+    m.val = sign_ext(rm.val, data_size);
+    operand_read(&rm);
+
     operand_write(&m);
     return len;
 }
@@ -70,3 +67,10 @@ make_instr_func(push_rm_v)
 // make_instr_impl_1op(push, i, b);
 // make_instr_impl_1op(push, r, v);
 // make_instr_impl_1op(push, rm, v);
+
+
+    /*printf("\e[0;31mrm.addr: %x\e[0m\n", rm.addr);
+    fflush(stdout);
+    printf("\e[0;31mm.val: %x\e[0m\n", m.val);
+    fflush(stdout);
+    assert(0);*/
