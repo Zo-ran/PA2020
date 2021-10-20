@@ -50,7 +50,7 @@ make_instr_func(push_rm_v)
     m.val = sign_ext(rm.val, rm.data_size);
     printf("\e[0;31mm.val : %x\e[0m\n", m.val);
     fflush(stdout);
-    
+    assert(0);
     operand_write(&m);
     return len;
 }
