@@ -48,7 +48,9 @@ make_instr_func(push_rm_v)
     m.type = OPR_MEM;
     m.data_size = data_size;
     m.val = rm.val;
-    
+    printf("\e[0;31m%x\e[0m\n", m.val);
+    fflush(stdout);
+    assert(0);
     operand_write(&m);
     return len;
 }
