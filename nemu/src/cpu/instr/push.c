@@ -47,7 +47,7 @@ make_instr_func(push_rm_v)
     m.addr = cpu.esp;
     m.type = OPR_MEM;
     m.data_size = data_size;
-    m.val = sign_ext(rm.val, rm.data_size);
+    //m.val = sign_ext(rm.val, rm.data_size);
     printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
     fflush(stdout);
     assert(0);
