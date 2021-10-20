@@ -23,7 +23,7 @@ make_instr_impl_2op(and, r, rm, v)
 make_instr_impl_2op(and, rm, r, b)
 make_instr_impl_2op(and, rm, r, v)
 
-/*make_instr_func(and_i2rm_bv)
+make_instr_func(and_i2rm_bv)
 {
     int len = 1;
     OPERAND imm, rm;
@@ -36,10 +36,9 @@ make_instr_impl_2op(and, rm, r, v)
     imm.addr = eip + len;
     operand_read(&imm);
     operand_read(&rm);
-    imm.val = sign_ext(imm.val & 0xFF, 8);
-    rm.val = sign_ext(rm.val, data_size);
+    imm.val = sign_ext(imm.val, 8);
   
     rm.val = alu_and(imm.val, rm.val, data_size);
     operand_write(&rm);
     return len + 1;
-}*/
+}
