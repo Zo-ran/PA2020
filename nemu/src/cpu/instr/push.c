@@ -36,7 +36,7 @@ make_instr_func(push_i_b)
     return 2;
 }
 
-/*make_instr_func(push_rm_v)
+make_instr_func(push_rm_v)
 {
     int len = 1;
     cpu.esp -= 4;
@@ -55,7 +55,7 @@ make_instr_func(push_i_b)
     assert(0);
     operand_write(&m);
     return len;
-}*/
+}
 static void instr_execute_1op()
 {
     cpu.esp -= 4;
@@ -69,4 +69,4 @@ static void instr_execute_1op()
 
 // make_instr_impl_1op(push, i, b);
 // make_instr_impl_1op(push, r, v);
-make_instr_impl_1op(push, rm, v);
+// make_instr_impl_1op(push, rm, v);
