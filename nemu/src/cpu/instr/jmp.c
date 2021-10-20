@@ -44,7 +44,7 @@ make_instr_func(jmp_near_indirect)
     modrm_rm(eip + 1, &rm);
     operand_read(&rm);
     
-    cpu.eip = sign_ext(rm.val & (0xFFFFFFFF >> (32 - data_size)), data_size);
+    // cpu.eip = sign_ext(rm.val & (0xFFFFFFFF >> (32 - data_size)), data_size);
     
     return 0;
 }
