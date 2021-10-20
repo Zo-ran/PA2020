@@ -1,6 +1,6 @@
 #include "cpu/instr.h"
 
-make_instr_func(push_r_v)
+/*make_instr_func(push_r_v)
 {
     cpu.esp -= 4;
     
@@ -55,4 +55,18 @@ make_instr_func(push_rm_v)
     assert(0);
     operand_write(&m);
     return len;
+}*/
+static void instr_execute_1op()
+{
+    cpu.esp -= 4;
+    opr_dest.type = OPR_MEM;
+    opr_dest.addr = cpu.esp;
+    opr_dest.data_size = data_size;
+    operand_read(&opr_src);
+    opr_dest.val = sign_ext(opr_src.val, data_size);
+    operand_write(&opr_dest);
 }
+
+make_instr_impl_1op(push, i, b);
+make_instr_impl_1op(push, r, v);
+make_instr_impl_1op(push, rm, v);
