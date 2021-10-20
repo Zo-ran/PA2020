@@ -48,6 +48,8 @@ make_instr_func(push_rm_v)
     m.type = OPR_MEM;
     m.data_size = data_size;
     m.val = rm.val;
+    printf("\e[0;31mm.rm.addr: %x\e[0m\n", rm.addr);
+    fflush(stdout);
     printf("\e[0;31mm.val: %x\e[0m\n", m.val);
     fflush(stdout);
     assert(0);
