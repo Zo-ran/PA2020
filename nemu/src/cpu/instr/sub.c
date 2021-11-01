@@ -14,7 +14,7 @@ static void instr_execute_2op()
 }
 
 make_instr_impl_2op(sub, i, rm, v)
-make_instr_impl_2op(sub, i, rm, bv)
+// make_instr_impl_2op(sub, i, rm, bv)
 make_instr_impl_2op(sub, i, rm, b)
 make_instr_impl_2op(sub, i, a, b)
 make_instr_impl_2op(sub, i, a, v)
@@ -23,7 +23,7 @@ make_instr_impl_2op(sub, r, rm, v)
 make_instr_impl_2op(sub, rm, r, b)
 make_instr_impl_2op(sub, rm, r, v)
 
-/*make_instr_func(sub_i2rm_bv) {
+make_instr_func(sub_i2rm_bv) {
     OPERAND imm, rm;
     int len = 1;
     // read rm
@@ -43,4 +43,4 @@ make_instr_impl_2op(sub, rm, r, v)
     operand_write(&rm);
     
     return len + 1;
-}*/
+}
