@@ -53,3 +53,24 @@ make_instr_func(push_rm_v)
     operand_write(&m);
     return len;
 }
+
+make_instr_func(push_i_v)
+{
+    // read imm
+    OPERAND imm;
+    imm.data_size = data_size;
+    imm.type = OPR_IMM;
+    imm.addr = eip + 1;
+    operand_read(&imm);
+    
+    // push imm
+    cpu.esp -= 4;
+    OPERAND m;
+    m.data_size = data_size;
+    m.type = OPR_MEM;
+    m.addr = cpu.esp;
+    m.val = sign_ext(imm.val, data_size);
+    operand_write(&m);
+     
+    return 1 + data_size / 8;
+}
