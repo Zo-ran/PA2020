@@ -36,7 +36,7 @@ make_instr_func(sub_i2rm_bv) {
     imm.addr = eip + len;
     imm.type = OPR_IMM;
     operand_read(&imm);
-    // imm.val = sign_ext(imm.val, 8);
+    imm.val = sign_ext(imm.val, 8);
     
     // sub
     rm.val = alu_sub(imm.val, rm.val, data_size);

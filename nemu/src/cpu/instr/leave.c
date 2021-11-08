@@ -10,7 +10,7 @@ make_instr_func(leave)
     m.type = OPR_MEM;
     m.data_size = data_size;
     operand_read(&m);
-    cpu.ebp = m.val;
-    cpu.esp += data_size / 8;
+    cpu.ebp = sign_ext(m.val, data_size);
+    cpu.esp += 4;
     return 1;
 }
