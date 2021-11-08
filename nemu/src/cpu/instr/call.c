@@ -24,3 +24,8 @@ make_instr_func(call_near)
     cpu.eip = sign_ext(imm.val, data_size) + cpu.eip + data_size / 8 + 1;
     return 0;
 }
+
+make_instr_func(call_near_indirect)
+{
+    cpu.
+}
