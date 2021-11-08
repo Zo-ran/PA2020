@@ -79,9 +79,9 @@ uint32_t alu_adc(uint32_t src, uint32_t dest, size_t data_size)
 
 uint32_t alu_sub(uint32_t src, uint32_t dest, size_t data_size)
 {
-// #ifdef NEMU_REF_ALU
+#ifdef NEMU_REF_ALU
 	return __ref_alu_sub(src, dest, data_size);
-/*#else
+#else
     uint32_t res = dest - src;
     res = sign_ext(res & (0xFFFFFFFF >> (32 - data_size)), data_size);
 	src = sign_ext(src & (0xFFFFFFFF >> (32 - data_size)), data_size);
@@ -106,7 +106,7 @@ uint32_t alu_sub(uint32_t src, uint32_t dest, size_t data_size)
     }
 	
 	return res & (0xFFFFFFFF >> (32 - data_size));
-#endif*/
+#endif
 }
 
 uint32_t alu_sbb(uint32_t src, uint32_t dest, size_t data_size)
