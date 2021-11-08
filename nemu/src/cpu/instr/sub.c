@@ -14,7 +14,7 @@ static void instr_execute_2op()
 }
 
 make_instr_impl_2op(sub, i, rm, v)
-// make_instr_impl_2op(sub, i, rm, bv)
+make_instr_impl_2op(sub, i, rm, bv)
 make_instr_impl_2op(sub, i, rm, b)
 make_instr_impl_2op(sub, i, a, b)
 make_instr_impl_2op(sub, i, a, v)
@@ -23,24 +23,24 @@ make_instr_impl_2op(sub, r, rm, v)
 make_instr_impl_2op(sub, rm, r, b)
 make_instr_impl_2op(sub, rm, r, v)
 
-make_instr_func(sub_i2rm_bv) {
-    OPERAND imm, rm;
-    int len = 1;
-    // read rm
-    rm.data_size = data_size;
-    len += modrm_rm(eip + 1, &rm);
-    operand_read(&rm);
+// make_instr_func(sub_i2rm_bv) {
+//     OPERAND imm, rm;
+//     int len = 1;
+//     // read rm
+//     rm.data_size = data_size;
+//     len += modrm_rm(eip + 1, &rm);
+//     operand_read(&rm);
     
-    //read imm
-    imm.data_size = 8;
-    imm.addr = eip + len;
-    imm.type = OPR_IMM;
-    operand_read(&imm);
-    imm.val = sign_ext(imm.val, 8);
+//     //read imm
+//     imm.data_size = 8;
+//     imm.addr = eip + len;
+//     imm.type = OPR_IMM;
+//     operand_read(&imm);
+//     imm.val = sign_ext(imm.val, 8);
     
-    // sub
-    rm.val = alu_sub(imm.val, rm.val, 8);
-    operand_write(&rm);
+//     // sub
+//     rm.val = alu_sub(imm.val, rm.val, data_size);
+//     operand_write(&rm);
     
-    return len + 1;
-}
+//     return len + 1;
+// }
