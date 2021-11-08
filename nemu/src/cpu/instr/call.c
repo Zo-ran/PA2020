@@ -27,5 +27,21 @@ make_instr_func(call_near)
 
 make_instr_func(call_near_indirect)
 {
-    cpu.
+    int len = 1;
+    OPERAND m, rm;
+    rm.data_size = data_size;
+    len += modrm_rm(eip + 1, &rm);
+    operand_read(&rm);
+    
+    // push eip
+    cpu.esp -= 4;
+    m.data_size = data_size;
+    m.type = OPR_MEM;
+    m.val = eip + len;
+    m.addr = cpu.esp;
+    operand_write(&m);
+    
+    //change eip
+    cpu.eip = sign_ext(rm.val, data_size);
+    return 0;    
 }
