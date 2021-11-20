@@ -18,6 +18,7 @@ void cache_write(paddr_t paddr, size_t len, uint32_t data)
 uint32_t cache_read(paddr_t paddr, size_t len)
 {
 	// implement me in PA 3-1
+	return hw_mem_read(paddr, len);
 	return 0;
 }
 
