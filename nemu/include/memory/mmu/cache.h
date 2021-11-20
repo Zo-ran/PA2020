@@ -5,6 +5,12 @@
 
 #ifdef CACHE_ENABLED
 
+typedef struct {
+    bool valid_bit;    //标志位，用于判断Cashline是否有效
+    uint32_t mark;      //标记部分，取低19位
+    uint8_t data[64];
+} CacheLine;
+
 // init the cache
 void init_cache();
 

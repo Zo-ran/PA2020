@@ -1,9 +1,12 @@
 #include "memory/mmu/cache.h"
+#include
 
-// init the cache
+CacheLine Cache[1024];
+
 void init_cache()
 {
-	// implement me in PA 3-1
+    for(int i = 0; i < 1024; i++)
+        Cache[i].
 }
 
 // write data to cache
