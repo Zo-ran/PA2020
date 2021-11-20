@@ -1,12 +1,11 @@
 #include "memory/mmu/cache.h"
-#include
 
 CacheLine Cache[1024];
 
 void init_cache()
 {
     for(int i = 0; i < 1024; i++)
-        Cache[i].
+         Cache[i].valid_bit = 0;
 }
 
 // write data to cache
