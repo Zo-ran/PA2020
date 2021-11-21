@@ -57,7 +57,6 @@ uint32_t cache_read(paddr_t paddr, size_t len)
 					ret <<= 8;                         //注意小端方式
 					ret += Cache[group * 8 + i].data[offset + j];
 				}
-				break;
 			} else {                            //如果越行，递归的使用两次cache_read
 				size_t next_len = offset + len - 64;    //下一行需要读入的长度
 				size_t now_len = 64 - offset;           //这一行需要读入的长度
@@ -65,8 +64,8 @@ uint32_t cache_read(paddr_t paddr, size_t len)
 				ret += cache_read(next_paddr, next_len);   //小端方式，先读入下一行
 				ret <<= (now_len * 8);     //小端方式，为低位移出空间
 				ret += cache_read(paddr, now_len);    //读此行的数据
-				break;
 			}
+			break;
 		}
 	}
 
@@ -88,6 +87,7 @@ uint32_t cache_read(paddr_t paddr, size_t len)
 		Cache[8 * group].valid_bit = true;
 		Cache[8 * group].mark = mark;
 		memcpy(Cache[8 * group].data, paddr - offset + hw_mem, 64);
+		ret = cache_read(paddr, len);
 	}
 
 	return ret;
