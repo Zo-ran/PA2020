@@ -27,7 +27,7 @@ void cache_write(paddr_t paddr, size_t len, uint32_t data)
 			} else {
 				size_t now_len = 64 - offset;
 				size_t next_len = len - now_len;
-				cache_write(paddr, now_len, data);
+				cache_write(paddr, now_len, data);          //递归
 				cache_write(paddr + now_len, next_len, data >> (8 * now_len));
 			}
 			break;
