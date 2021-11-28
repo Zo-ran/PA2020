@@ -3,7 +3,6 @@
 
 #include "nemu.h"
 
-#ifdef CACHE_ENABLED
 
 typedef struct {
     bool valid_bit;    //标志位，用于判断Cashline是否有效
@@ -11,6 +10,7 @@ typedef struct {
     uint8_t data[64];
 } CacheLine;
 
+#ifdef CACHE_ENABLED
 // init the cache
 void init_cache();
 
