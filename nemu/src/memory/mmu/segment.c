@@ -15,7 +15,7 @@ void load_sreg(uint8_t sreg)
 	segdesc->val[0] = laddr_read(offset, 4);
 	segdesc->val[1] = laddr_read(offset + 4, 4);
 	cpu.segReg[sreg].base = (segdesc->base_15_0 & 0xffff) + ((segdesc->base_23_16 & 0xff) << 16) + ((segdesc->base_31_24 & 0xff) << 24);
-	cpu.segReg[sreg].limit = (segdesc->limit_15_0 & 0xffff) + ((get->limit_19_16 & 0xf) << 16);
+	cpu.segReg[sreg].limit = (segdesc->limit_15_0 & 0xffff) + ((segdesc->limit_19_16 & 0xf) << 16);
 	cpu.segReg[sreg].type = (segdesc->type & 0xf) + ((segdesc->segment_type & 0x1) << 4);
 	cpu.segReg[sreg].privilege_level = segdesc->privilege_level;
 	cpu.segReg[sreg].soft_use = segdesc->soft_use & 0x1;
