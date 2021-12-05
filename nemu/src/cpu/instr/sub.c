@@ -34,6 +34,7 @@ make_instr_func(sub_i2rm_bv) {
     //read imm
     imm.data_size = 8;
     imm.addr = eip + len;
+    imm.sreg = SREG_CS;
     imm.type = OPR_IMM;
     operand_read(&imm);
     imm.val = sign_ext(imm.val, 8);

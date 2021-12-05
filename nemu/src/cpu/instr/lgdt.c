@@ -2,3 +2,18 @@
 /*
 Put the implementations of `lgdt' instructions here.
 */
+make_instr_func(lgdt) {
+    int len = 1;
+    OPERAND MEM;        
+    MEM.data_size = data_size;
+    len += modrm_rm(eip + 1, &MEM);
+    MEM.data_size = 16;
+    operand_read(&MEM);
+    cpu.gdtr.limit = MEM.val & 0xffff;
+    MEM.data_size = 32;
+    MEM.addr += 2;
+    operand_read(&MEM);
+    cpu.gdtr.base = a.val & 0xffffffff;
+    
+    return len;
+}

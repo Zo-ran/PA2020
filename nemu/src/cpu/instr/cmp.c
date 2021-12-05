@@ -23,6 +23,7 @@ make_instr_func(cmp_i2a_b)
     imm.type = OPR_IMM;
     imm.addr = eip + 1;
     imm.data_size = 8;
+    imm.sreg = SREG_CS;
     operand_read(&imm);
     
     alu_sub(imm.val, cpu.eax, 8);
@@ -36,7 +37,7 @@ make_instr_func(cmp_i2rm_bv)
     
     rm.data_size = data_size;
     len += modrm_rm(eip + 1, &rm);
-    
+    imm.sreg = SREG_CS;
     imm.type = OPR_IMM;
     imm.data_size = 8;
     imm.addr = eip + len;

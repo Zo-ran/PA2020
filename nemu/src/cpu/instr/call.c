@@ -10,6 +10,7 @@ make_instr_func(call_near)
     imm.type = OPR_IMM;
     imm.data_size = data_size;
     imm.addr = cpu.eip + 1;
+    imm.sreg = SREG_CS;
     operand_read(&imm);
     
     //push eip
@@ -18,6 +19,7 @@ make_instr_func(call_near)
     m.type = OPR_MEM;
     m.val = cpu.eip + 5;
     m.addr = cpu.esp;
+    m.sreg = SREG_SS;
     operand_write(&m);
     
     //change eip
@@ -39,6 +41,7 @@ make_instr_func(call_near_indirect)
     m.type = OPR_MEM;
     m.val = eip + len;
     m.addr = cpu.esp;
+    m.sreg = SREG_SS;
     operand_write(&m);
     
     //change eip

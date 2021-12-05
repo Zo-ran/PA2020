@@ -11,6 +11,7 @@ make_instr_func(pop_r_v)
     m.type = OPR_MEM;
     m.data_size = data_size;
     m.addr = cpu.esp;
+    m.sreg = SRGE_SS;
     
     operand_read(&m);
     r.val = sign_ext(m.val & (0xFFFFFFFF >> (32 - data_size)), data_size);

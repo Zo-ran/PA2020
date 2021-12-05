@@ -48,3 +48,20 @@ make_instr_func(jmp_near_indirect)
     
     return 0;
 }
+
+make_instr_func(jmp_far_imm) {
+    OPERAND imm;
+    imm.sreg = SREG_CS;
+    imm.type = OPR_IMM;
+    imm.data_size=data_size;
+    imm.addr = eip + 1;
+    operand_read(&imm);
+    imm.val = imm.val & (0xFFFFFFFF >> (32 - data_size));
+    cpu.eip = imm.val;
+    imm.addr += data_size / 8;
+    imm.data_size = 16;
+    operand_read(&imm);
+    cpu.segReg[1].val = imm.val;
+    load_sreg(1);
+    return 0;
+}

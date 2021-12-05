@@ -8,6 +8,7 @@ make_instr_func(leave)
     OPERAND m;
     m.addr = cpu.esp;
     m.type = OPR_MEM;
+    m.sreg = SREG_SS;
     m.data_size = data_size;
     operand_read(&m);
     cpu.ebp = sign_ext(m.val, data_size);
