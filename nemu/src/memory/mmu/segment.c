@@ -4,7 +4,7 @@
 // return the linear address from the virtual address and segment selector
 uint32_t segment_translate(uint32_t offset, uint8_t sreg)
 {
-    return cpu.segReg[sreg].base + offset;
+    return 0;
 }
 
 // load the invisible part of a segment register
