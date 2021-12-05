@@ -58,10 +58,11 @@ uint32_t vaddr_read(vaddr_t vaddr, uint8_t sreg, size_t len) {
 #ifndef IA32_SEG
 	return laddr_read(vaddr, len);
 #else
-	uint32_t laddr = vaddr;
+// 	uint32_t laddr = vaddr;
 	if(cpu.cr0.pe) {
 		laddr = segment_translate(vaddr, sreg);
 	}
+	return 0;
 // 	return laddr_read(laddr, len);
 #endif
 }
