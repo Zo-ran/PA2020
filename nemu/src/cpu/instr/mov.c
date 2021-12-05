@@ -100,7 +100,7 @@ make_instr_func(mov_c2r_l) {
     return len;
 }
 
-make_instr_fun(mov_r2c_l) {
+make_instr_func(mov_r2c_l) {
     int len = 1;
     OPERAND r, creg;
     r.data_size = creg.data_size = 32;
