@@ -25,7 +25,7 @@ instr_func  opcode_entry[256] = {
     /* 0x54 - 0x57*/  push_r_v,  push_r_v,  push_r_v,  push_r_v,
     /* 0x58 - 0x5b*/  pop_r_v,  pop_r_v,  pop_r_v,  pop_r_v,
     /* 0x5c - 0x5f*/  pop_r_v,  pop_r_v,  pop_r_v,  pop_r_v,
-    /* 0x60 - 0x63*/  pusha,  popa, inv, inv,
+    /* 0x60 - 0x63*/  inv,  inv, inv, inv,
     /* 0x64 - 0x67*/ inv, inv, data_size_16, inv,
     /* 0x68 - 0x6b*/  push_i_v,  imul_irm2r_v,  push_i_b,  imul_i8rm2r_v,
     /* 0x6c - 0x6f*/ inv, inv, inv, inv,
@@ -52,7 +52,7 @@ instr_func  opcode_entry[256] = {
     /* 0xc0 - 0xc3*/  group_2_b,  group_2_v,  ret_near_imm16,  ret_near,
     /* 0xc4 - 0xc7*/ inv, inv,  mov_i2rm_b,  mov_i2rm_v,
     /* 0xc8 - 0xcb*/ inv,  leave, inv, inv,
-    /* 0xcc - 0xcf*/ inv,  int_, inv,  iret,
+    /* 0xcc - 0xcf*/ inv,  inv, inv,  inv,
     /* 0xd0 - 0xd3*/  group_2_1b,  group_2_1v,  group_2_cb,  group_2_cv,
     /* 0xd4 - 0xd7*/ inv, inv, inv, inv,
     /* 0xd8 - 0xdb*/  group_x87_d8,  group_x87_d9,  group_x87_da,  group_x87_db,
@@ -60,10 +60,10 @@ instr_func  opcode_entry[256] = {
     /* 0xe0 - 0xe3*/ inv, inv, inv,  jecxz_short_,
     /* 0xe4 - 0xe7*/ inv, inv, inv, inv,
     /* 0xe8 - 0xeb*/  call_near,  jmp_near,  jmp_far_imm,  jmp_short,
-    /* 0xec - 0xef*/  in_b,  in_v,  out_b,  out_v,
+    /* 0xec - 0xef*/  inv,  in_v,  inv,  inv,
     /* 0xf0 - 0xf3*/ inv, break_point, inv,  rep_repe,
     /* 0xf4 - 0xf7*/  hlt, inv,  group_3_b,  group_3_v,
-    /* 0xf8 - 0xfb*/  clc, inv,  cli,  sti,
+    /* 0xf8 - 0xfb*/  clc, inv,  inv,  inv,
     /* 0xfc - 0xff*/  cld, inv, inv,  group_5_indirect,
 };
 
@@ -105,11 +105,11 @@ instr_func  group_2_cv_entry[8] =
 
 /* 0xf6 */
 instr_func  group_3_b_entry[8] =
-    { test_i2rm_b, inv,  not_rm_b,  neg_rm_b,  mul_rm2a_b,  imul_rm2a_b,  div_rm2a_b,  idiv_rm2a_b};
+    { test_i2rm_b, inv,  not_rm_b,  inv,  mul_rm2a_b,  imul_rm2a_b,  div_rm2a_b,  idiv_rm2a_b};
 
 /* 0xf7 */
 instr_func  group_3_v_entry[8] =
-    { test_i2rm_v, inv,  not_rm_v,  neg_rm_v,  mul_rm2a_v,  imul_rm2a_v,  div_rm2a_v,  idiv_rm2a_v};
+    { test_i2rm_v, inv,  not_rm_v,  inv,  mul_rm2a_v,  imul_rm2a_v,  div_rm2a_v,  idiv_rm2a_v};
 
 /* 0xff */
 instr_func  group_5_indirect_entry[8] =
