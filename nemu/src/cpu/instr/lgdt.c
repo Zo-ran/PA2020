@@ -13,7 +13,7 @@ make_instr_func(lgdt) {
     MEM.data_size = 32;
     MEM.addr += 2;
     operand_read(&MEM);
-    cpu.gdtr.base = a.val & 0xffffffff;
+    cpu.gdtr.base = MEM.val & 0xffffffff;
     
     return len;
 }
