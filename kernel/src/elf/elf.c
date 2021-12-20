@@ -36,17 +36,19 @@ uint32_t loader()
 	{
 		if (ph->p_type == PT_LOAD)
 		{
-
 			// remove this panic!!!
-// 			panic("Please implement the loader");
-            uint32_t paddr = mm_malloc(ph->p_vaddr, ph->p_memsz);
-
+			//panic("Please implement the loader");
+			uint32_t paddr=mm_malloc(ph->p_vaddr,ph->p_memsz);
+			//Log("vaddr=0x%x,paddr=0x%x",ph->p_vaddr,ph->p_paddr);
 /* TODO: copy the segment from the ELF file to its proper memory area */
-            memcpy((void *)paddr, (void *)(ph->p_offset), ph->p_filesz);
-
+            #ifdef HAS_DEVICE_IDE
+                ide_read((void*)paddr,ELF_OFFSET_IN_DISK+(uint32_t)ph->p_offset,ph->p_filesz);
+            #else
+                memcpy((void*)paddr,(void*)ph->p_offset,ph->p_filesz);
+            #endif
 /* TODO: zeror the memory area [vaddr + file_sz, vaddr + mem_sz) */
-            memset((void *)(paddr + ph->p_filesz), 0, ph->p_memsz - ph->p_filesz);
-
+            if(ph->p_memsz>ph->p_filesz)
+                memset((void*)(paddr+ph->p_filesz),0,ph->p_memsz-ph->p_filesz);
 #ifdef IA32_PAGE
 			/* Record the program break for future use */
 			extern uint32_t brk;
