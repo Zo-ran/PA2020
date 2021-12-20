@@ -27,7 +27,7 @@ uint32_t dir=(laddr>>22)&0x3ff;
 	uint32_t page=(laddr&0x3ff000)>>12;
 	uint32_t offset=laddr&0xfff;
 	PDE pde;
-	uint32_t addr_pde=(cpu.cr3.pdbr<<12)+4*dir;
+	uint32_t addr_pde=(cpu.cr3.pdir<<12)+4*dir;
 	memcpy(&pde.val,(void*)(hw_mem+addr_pde),4);
 	if(pde.present==0)
 	{
