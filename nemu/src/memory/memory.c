@@ -45,47 +45,97 @@ void paddr_write(paddr_t paddr, size_t len, uint32_t data)
 
 uint32_t laddr_read(laddr_t laddr, size_t len)
 {
-#ifndef IA32_PAGE
-	return paddr_read(laddr, len);
-#else
-    paddr_t paddr = laddr;
-    if(cpu.cr0.pe && cpu.cr0.pg) {
-        if((laddr & 0x00000fff) + len > 0x1000) {   //处理跨页的情况
-            uint32_t next_len = (laddr & 0x00000fff) + len - 0x1000;
-            uint32_t now_len = len - next_len;
-            laddr_t next_laddr = (laddr & 0xfffff000) + 0x1000;
-            uint32_t res = paddr_read(page_translate(laddr), now_len);
-            res += (paddr_read(page_translate(next_laddr), next_len) << (now_len * 8));
-            return res;
-        } else {
-            paddr = page_translate(laddr);
-            return paddr_read(paddr, len);
+// #ifndef IA32_PAGE
+// 	return paddr_read(laddr, len);
+// #else
+//     paddr_t paddr = laddr;
+//     if(cpu.cr0.pe && cpu.cr0.pg) {
+//         if((laddr & 0x00000fff) + len > 0x1000) {   //处理跨页的情况
+//             uint32_t next_len = (laddr & 0x00000fff) + len - 0x1000;
+//             uint32_t now_len = len - next_len;
+//             laddr_t next_laddr = (laddr & 0xfffff000) + 0x1000;
+//             uint32_t res = paddr_read(page_translate(laddr), now_len);
+//             res += (paddr_read(page_translate(next_laddr), next_len) << (now_len * 8));
+//             return res;
+//         } else {
+//             paddr = page_translate(laddr);
+//             return paddr_read(paddr, len);
+//         }
+//     } else 
+//         return paddr_read(laddr, len);
+// #endif
+assert(len==1||len==2||len==4);
+    //printf("\n%d\n%d\n",cpu.cr0.pe,cpu.cr0.pg);
+    /*if(cpu.cr0.pe==0)
+    {
+        printf("\n%d\n",cpu.eip);
+    }*/
+	if(cpu.cr0.pe&&cpu.cr0.pg)
+	{
+	    if(laddr+len-1>(laddr&0xfffff000)+0x1000-1)
+	    {
+	        laddr_t newladdr=(laddr&0xfffff000)+0x1000;
+	        size_t newlen=laddr+len-1-((laddr&0xfffff000)+0x1000-1);
+	        paddr_t hwaddr=page_translate(laddr);
+	        paddr_t newhwaddr=page_translate(newladdr);
+	        uint32_t final=0;
+	        final=paddr_read(hwaddr,len-newlen);
+	        final+=(paddr_read(newhwaddr,newlen)<<((len-newlen)*8));
+	        return final;
+	    }
+	    else
+	    {
+	        paddr_t hwaddr=page_translate(laddr);
+	        return paddr_read(hwaddr,len);
         }
-    } else 
-        return paddr_read(laddr, len);
-#endif
+	}
+	else
+	    return paddr_read(laddr,len);
+	return paddr_read(laddr,len);
 }
 
 void laddr_write(laddr_t laddr, size_t len, uint32_t data)
 {
-#ifndef IA32_PAGE
-	paddr_write(laddr, len, data);
+// #ifndef IA32_PAGE
+// 	paddr_write(laddr, len, data);
 	
-#else
-    paddr_t paddr = laddr;
-    if(cpu.cr0.pe && cpu.cr0.pg) {
-        if((laddr & 0x00000fff) + len > 0x1000) {   //处理跨页的情况
-            uint32_t next_len = (laddr & 0x00000fff) + len - 0x1000;
-            uint32_t now_len = len - next_len;
-            laddr_t next_laddr = (laddr & 0xfffff000) + 0x1000;
-            paddr_write(page_translate(laddr), now_len, data & (0xffffffff >> (32 - now_len)));
-	        paddr_write(page_translate(next_laddr), next_len, data >> (8 * now_len));
-        } else {
-            paddr = page_translate(laddr);
-            paddr_write(paddr, len, data);
-        }
-    }
-#endif
+// #else
+//     paddr_t paddr = laddr;
+//     if(cpu.cr0.pe && cpu.cr0.pg) {
+//         if((laddr & 0x00000fff) + len > 0x1000) {   //处理跨页的情况
+//             uint32_t next_len = (laddr & 0x00000fff) + len - 0x1000;
+//             uint32_t now_len = len - next_len;
+//             laddr_t next_laddr = (laddr & 0xfffff000) + 0x1000;
+//             paddr_write(page_translate(laddr), now_len, data & (0xffffffff >> (32 - now_len)));
+// 	        paddr_write(page_translate(next_laddr), next_len, data >> (8 * now_len));
+//         } else {
+//             paddr = page_translate(laddr);
+//             paddr_write(paddr, len, data);
+//         }
+//     }
+// #endif
+assert(len==1||len==2||len==4);
+    //printf("%d\n%d\n",cpu.cr0.pe,cpu.cr0.pg);
+	if(cpu.cr0.pe&&cpu.cr0.pg)
+	{
+	    if(laddr+len-1>(laddr&0xfffff000)+0x1000-1)
+	    {
+	        laddr_t newladdr=(laddr&0xfffff000)+0x1000;
+	        size_t newlen=laddr+len-1-((laddr&0xfffff000)+0x1000-1);
+	        paddr_t hwaddr=page_translate(laddr);
+	        paddr_t newhwaddr=page_translate(newladdr);
+	        paddr_write(hwaddr,len-newlen,((data<<8*(newlen))>>(8*newlen)));
+	        paddr_write(newhwaddr,newlen,(data>>(8*(len-newlen))));
+	    }
+	    else
+	    {
+	        paddr_t hwaddr=page_translate(laddr);
+	        paddr_write(hwaddr,len,data);
+	    }
+	}
+	else
+	    paddr_write(laddr,len,data);
+
 }
 
 uint32_t vaddr_read(vaddr_t vaddr, uint8_t sreg, size_t len) {
