@@ -97,7 +97,7 @@ assert(len==1||len==2||len==4);
 
 void laddr_write(laddr_t laddr, size_t len, uint32_t data)
 {
-#ifndef IA32_PAGE
+
 paddr_write(laddr, len, data);
 return;
 	
