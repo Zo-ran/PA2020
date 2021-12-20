@@ -39,6 +39,7 @@ paddr_t page_translate(laddr_t laddr)
 // 	memcpy(&pte.val,(void*)(hw_mem+addr_pte),4);
 // 	assert(pte.present==1);
 // 	return (pte.page_frame<<12)+offset;
+return 0;
 #else
 	return tlb_read(laddr) | (laddr & PAGE_MASK);
 #endif
