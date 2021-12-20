@@ -33,7 +33,7 @@ uint32_t dir=(laddr>>22)&0x3ff;
 	{
 	    printf("\n%x\n",cpu.eip);
 	}
-    assert(pde.present==1);
+    assert(pde.present==0);
 	uint32_t addr_pte=(pde.page_frame<<12)+page*4;
 	PTE pte;
 	memcpy(&pte.val,(void*)(hw_mem+addr_pte),4);
