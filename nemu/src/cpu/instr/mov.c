@@ -91,6 +91,7 @@ make_instr_func(mov_rm2s_w) {
 
 make_instr_func(mov_c2r_l) {
         printf("\e[0;31mfuckyoubitch\e[0m\n");
+        printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
     fflush(stdout);
         int len=1;
     OPERAND r;
@@ -119,7 +120,8 @@ make_instr_func(mov_r2c_l) {
     OPERAND c;
     opr_src.data_size=32;
     c.data_size=32;
-    printf("\e[0;31mfuckyoubitch\e[0m\n");asdasd
+    printf("\e[0;31mfuckyoubitch\e[0m\n");
+    printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
     fflush(stdout);
     len+=modrm_r_rm(eip+1,&c,&opr_src);
     c.type=OPR_CREG;
