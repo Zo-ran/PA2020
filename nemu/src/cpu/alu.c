@@ -79,34 +79,34 @@ uint32_t alu_adc(uint32_t src, uint32_t dest, size_t data_size)
 
 uint32_t alu_sub(uint32_t src, uint32_t dest, size_t data_size)
 {
-#ifdef NEMU_REF_ALU
+// #ifdef NEMU_REF_ALU
 	return __ref_alu_sub(src, dest, data_size);
-#else
-    uint32_t res = dest - src;
-    res = sign_ext(res & (0xFFFFFFFF >> (32 - data_size)), data_size);
-	src = sign_ext(src & (0xFFFFFFFF >> (32 - data_size)), data_size);
-	dest = sign_ext(dest & (0xFFFFFFFF >> (32 - data_size)), data_size);
+// #else
+//     uint32_t res = dest - src;
+//     res = sign_ext(res & (0xFFFFFFFF >> (32 - data_size)), data_size);
+// 	src = sign_ext(src & (0xFFFFFFFF >> (32 - data_size)), data_size);
+// 	dest = sign_ext(dest & (0xFFFFFFFF >> (32 - data_size)), data_size);
     
-    cpu.eflags.CF = (res > dest);
+//     cpu.eflags.CF = (res > dest);
     
-    set_PF(res);
+//     set_PF(res);
     
-    cpu.eflags.ZF = (res == 0);
+//     cpu.eflags.ZF = (res == 0);
         
-    cpu.eflags.SF = sign(res);
+//     cpu.eflags.SF = sign(res);
 	
-    if(sign(dest) != sign(src)){
-        if(sign(dest) != sign(res))
-            cpu.eflags.OF = 1;
-        else
-            cpu.eflags.OF = 0;
-    }
-    else{
-        cpu.eflags.OF = 0;
-    }
+//     if(sign(dest) != sign(src)){
+//         if(sign(dest) != sign(res))
+//             cpu.eflags.OF = 1;
+//         else
+//             cpu.eflags.OF = 0;
+//     }
+//     else{
+//         cpu.eflags.OF = 0;
+//     }
 	
-	return res & (0xFFFFFFFF >> (32 - data_size));
-#endif
+// 	return res & (0xFFFFFFFF >> (32 - data_size));
+// #endif
 }
 
 uint32_t alu_sbb(uint32_t src, uint32_t dest, size_t data_size)
