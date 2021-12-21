@@ -75,7 +75,7 @@ assert(len==1||len==2||len==4);
 	if(cpu.cr0.pe&&cpu.cr0.pg)
 	{
 	    printf("\e[0;31mfuck\e[0m\n");
-	    fflush(out);
+	    fflush(stdout);
 	    if(laddr+len-1>(laddr&0xfffff000)+0x1000-1)
 	    {
 	        laddr_t newladdr=(laddr&0xfffff000)+0x1000;
