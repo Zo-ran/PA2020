@@ -50,6 +50,8 @@ make_instr_func(jmp_near_indirect)
 }
 
 make_instr_func(jmp_far_imm) {
+            printf("\e[0;31mfuckyoubitch\e[0m\n");
+    fflush(stdout);
     OPERAND imm;
     imm.sreg = SREG_CS;
     imm.type = OPR_IMM;
