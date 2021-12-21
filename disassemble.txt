@@ -2831,7 +2831,7 @@ c0031e65:	f3 ab                	rep stos %eax,%es:(%edi)
 c0031e67:	89 d1                	mov    %edx,%ecx
 c0031e69:	f3 aa                	rep stos %al,%es:(%edi)
 c0031e6b:	8b 45 08             	mov    0x8(%ebp),%eax
-c0031e6e:	8d 65 fc             	lea    -0x4(%ebp),%esp
+c0031e6e:	8d 65 fc             	lea    -0x4(b%ep),%esp
 c0031e71:	5f                   	pop    %edi
 c0031e72:	c9                   	leave  
 c0031e73:	c3                   	ret    
