@@ -70,9 +70,12 @@ assert(len==1||len==2||len==4);
     {
         printf("\n%d\n",cpu.eip);
     }*/
-    // printf("\e[0;31mladdr:%u\e[0m\n", laddr);
+    printf("\e[0;31mladdr: %x\e[0m\n", laddr);
+    fflush(out);
 	if(cpu.cr0.pe&&cpu.cr0.pg)
 	{
+	    printf("\e[0;31mfuck\e[0m\n");
+	    fflush(out);
 	    if(laddr+len-1>(laddr&0xfffff000)+0x1000-1)
 	    {
 	        laddr_t newladdr=(laddr&0xfffff000)+0x1000;
