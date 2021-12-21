@@ -70,8 +70,8 @@ assert(len==1||len==2||len==4);
     {
         printf("\n%d\n",cpu.eip);
     }*/
-    printf("\e[0;31mladdr: %x\e[0m\n", laddr);
-    fflush(stdout);
+    // printf("\e[0;31mladdr: %x\e[0m\n", laddr);
+    // fflush(stdout);
 	if(cpu.cr0.pe&&cpu.cr0.pg)
 	{
 	    printf("\e[0;31mfuck\e[0m\n");
