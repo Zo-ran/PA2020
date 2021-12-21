@@ -129,9 +129,9 @@ void init_mem()
 #endif
 }
 
-uint32_t instr_fetch(vaddr_t vaddr, size_t len)
-{
-	assert(len == 1 || len == 2 || len == 4);
+uint32_t instr_fetch(vaddr_
+	assert(len == 1 || len t vaddr, size_t len)
+{== 2 || len == 4);
 	return vaddr_read(vaddr, SREG_CS, len);
 }
 
