@@ -90,9 +90,7 @@ make_instr_func(mov_rm2s_w) {
 }
 
 make_instr_func(mov_c2r_l) {
-        printf("\e[0;31mfuckyoubitch\e[0m\n");
-        printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-    fflush(stdout);
+
         int len=1;
     OPERAND r;
     opr_src.data_size=32;

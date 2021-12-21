@@ -45,6 +45,7 @@ void paddr_write(paddr_t paddr, size_t len, uint32_t data)
 
 uint32_t laddr_read(laddr_t laddr, size_t len)
 {
+    printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
 // #ifndef IA32_PAGE
 // 	return paddr_read(laddr, len);
 // #else
