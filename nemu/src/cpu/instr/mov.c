@@ -119,7 +119,7 @@ make_instr_func(mov_r2c_l) {
     OPERAND c;
     opr_src.data_size=32;
     c.data_size=32;
-    printf("\e[0;31mfuckyoubitch\e[0m\n");
+    printf("\e[0;31mfuckyoubitch\e[0m\n");asdasd
     fflush(stdout);
     len+=modrm_r_rm(eip+1,&c,&opr_src);
     c.type=OPR_CREG;

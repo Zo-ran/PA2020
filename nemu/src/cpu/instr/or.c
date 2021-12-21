@@ -3,8 +3,6 @@
 
 static void instr_execute_2op()
 {
-                    printf("\e[0;31mfuckyoubitch\e[0m\n");
-    fflush(stdout);
     operand_read(&opr_src);
     operand_read(&opr_dest);
     opr_dest.val = alu_or(opr_src.val & (0xFFFFFFFF >> (32 - opr_src.data_size)), opr_dest.val & (0xFFFFFFFF >> (32 - opr_dest.data_size)), opr_dest.data_size);
