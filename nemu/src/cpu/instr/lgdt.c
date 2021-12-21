@@ -3,8 +3,6 @@
 Put the implementations of `lgdt' instructions here.
 */
 make_instr_func(lgdt) {	    
-    printf("\e[0;31mfuck\e[0m\n");
-
     int len = 1;
     OPERAND MEM;        
     MEM.data_size = data_size;

@@ -90,51 +90,23 @@ make_instr_func(mov_rm2s_w) {
 }
 
 make_instr_func(mov_c2r_l) {
-
-        int len=1;
-    OPERAND r;
-    opr_src.data_size=32;
-    r.data_size=32;
-    len+=modrm_r_rm(eip+1,&opr_src,&r);
-    opr_src.type=OPR_CREG;
-    operand_read(&opr_src);
-    r.val=opr_src.val;
+    int len = 1;
+    OPERAND r, creg;
+    r.data_size = creg.data_size = 32;
+    len += modrm_r_rm(eip + 1, &r, &creg);
+    operand_read(&creg);
+    r.val = creg.val;
     operand_write(&r);
-    //load_sreg(1);
     return len;
-    
-    // int len = 1;
-    // OPERAND r, creg;
-    // r.data_size = creg.data_size = 32;
-    // len += modrm_r_rm(eip + 1, &r, &creg);
-    // operand_read(&creg);
-    // r.val = creg.val;
-    // operand_write(&r);
-    // return len;
 }
 
 make_instr_func(mov_r2c_l) {
-        int len=1;
-    OPERAND c;
-    opr_src.data_size=32;
-    c.data_size=32;
-    printf("\e[0;31mfuckyoubitch\e[0m\n");
-    printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-    fflush(stdout);
-    len+=modrm_r_rm(eip+1,&c,&opr_src);
-    c.type=OPR_CREG;
-    operand_read(&opr_src);
-    c.val=opr_src.val;
-    operand_write(&c);
-    //load_sreg(1);
+    int len = 1;
+    OPERAND r, creg;
+    r.data_size = creg.data_size = 32;
+    len += modrm_r_rm(eip + 1, &creg, &r);
+    operand_read(&creg);
+    creg.val = r.val;
+    operand_write(&creg);
     return len;
-    
-    // int len = 1;
-    // OPERAND r, creg;
-    // r.data_size = creg.data_size = 32;
-    // len += modrm_r_rm(eip + 1, &creg, &r);
-    // operand_read(&creg);
-    // creg.val = r.val;
-    // operand_write(&creg);
-    // return len;
 }
