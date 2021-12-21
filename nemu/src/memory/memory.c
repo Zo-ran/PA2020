@@ -70,6 +70,7 @@ assert(len==1||len==2||len==4);
     {
         printf("\n%d\n",cpu.eip);
     }*/
+    printf("\e[0;31mladdr:%u\e[0m\n", laddr);
 	if(cpu.cr0.pe&&cpu.cr0.pg)
 	{
 	    if(laddr+len-1>(laddr&0xfffff000)+0x1000-1)
