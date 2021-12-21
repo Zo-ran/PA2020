@@ -45,7 +45,6 @@ void paddr_write(paddr_t paddr, size_t len, uint32_t data)
 
 uint32_t laddr_read(laddr_t laddr, size_t len)
 {
-    printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
 // #ifndef IA32_PAGE
 // 	return paddr_read(laddr, len);
 // #else
@@ -75,8 +74,6 @@ assert(len==1||len==2||len==4);
     // fflush(stdout);
 	if(cpu.cr0.pe&&cpu.cr0.pg)
 	{
-	    printf("\e[0;31mfuck\e[0m\n");
-	    fflush(stdout);
 	    if(laddr+len-1>(laddr&0xfffff000)+0x1000-1)
 	    {
 	        laddr_t newladdr=(laddr&0xfffff000)+0x1000;
