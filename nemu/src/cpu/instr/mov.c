@@ -107,7 +107,7 @@ make_instr_func(mov_r2c_l) {
     len += modrm_r_rm(eip + 1, &creg, &r);
     operand_read(&r);
     creg.val = r.val;
-    creg.type=OPR_CREG
+    creg.type=OPR_CREG;
     operand_write(&creg);
     printf("\e[0;31mfuck: %d\e[0m\n", cpu.cr0.pe);
     fflush(stdout);   
