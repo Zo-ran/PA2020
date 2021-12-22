@@ -96,12 +96,13 @@ uint32_t vaddr_read(vaddr_t vaddr, uint8_t sreg, size_t len) {
 	return laddr_read(vaddr, len);
 #else
 	uint32_t laddr = vaddr;
-	printf("\e[0;31mread before: %d\e[0m\n", laddr);
+	printf("\e[0;31mread before: %x\e[0m\n", laddr);
+	printf("\e[0;31msreg: %x\e[0m\n", sreg);
     fflush(stdout);   
 	if(cpu.cr0.pe) {
 		laddr = segment_translate(vaddr, sreg);
 	}
-	printf("\e[0;31mread latter: %d\e[0m\n", laddr);
+	printf("\e[0;31mread latter: %x\e[0m\n", laddr);
     fflush(stdout);   
 	return laddr_read(laddr, len);
 #endif
