@@ -90,7 +90,7 @@ make_instr_func(mov_rm2s_w) {
 }
 
 make_instr_func(mov_c2r_l) {
-    printf("\e[0;31mfuck %d\e[0m\n", MEM.val);
+    printf("\e[0;31mfuck\e[0m\n");
     fflush(stdout);   
     int len = 1;
     OPERAND r, creg;
