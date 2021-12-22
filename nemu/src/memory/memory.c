@@ -11,10 +11,10 @@ uint8_t hw_mem[MEM_SIZE_B];
 uint32_t hw_mem_read(paddr_t paddr, size_t len)
 {
 	uint32_t ret = 0;
-    printf("\e[0;31mpaddr: %x\e[0m\n", paddr);
-    fflush(stdout);  
 	memcpy(&ret, hw_mem + paddr, len);
-	printf("\e[0;31mret: %x\e[0m\n", ret);
+	for(int i = 0; i < 4; i++) {
+	    printf("\e[0;31m%ddata: %x\e[0m\n", i, paddr, hw_mem[paddr]);
+	}
     fflush(stdout);  
 	return ret;
 }
