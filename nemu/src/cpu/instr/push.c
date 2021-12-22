@@ -4,12 +4,12 @@ static void instr_execute_1op()
 {
     OPERAND get;
     operand_read(&opr_src);
-    cpu.esp=cpu.esp-data_size/8;
-    get.type=OPR_MEM;
-    get.addr=cpu.esp;
-    get.val=opr_src.val;
-    get.data_size=data_size;
-    get.sreg=SREG_SS;
+    cpu.esp -= 4;
+    get.type = OPR_MEM;
+    get.addr = cpu.esp;
+    get.val = opr_src.val;
+    get.data_size = data_size;
+    get.sreg = SREG_SS;
     operand_write(&get);
 }
 
