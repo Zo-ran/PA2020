@@ -4,6 +4,8 @@ Put the implementations of `ret' instructions here.
 */
 make_instr_func(ret_near)
 {
+    printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
+    fflush(stdout);
     OPERAND MEM;
     MEM.data_size = data_size;
     MEM.type = OPR_MEM;
