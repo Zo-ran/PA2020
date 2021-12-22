@@ -90,6 +90,8 @@ make_instr_func(mov_rm2s_w) {
 }
 
 make_instr_func(mov_c2r_l) {
+    printf("\e[0;31mfuck %d\e[0m\n", MEM.val);
+    fflush(stdout);   
     int len = 1;
     OPERAND r, creg;
     r.data_size = creg.data_size = 32;
