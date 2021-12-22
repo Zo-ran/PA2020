@@ -14,6 +14,8 @@ uint32_t hw_mem_read(paddr_t paddr, size_t len)
     printf("\e[0;31mpaddr: %x\e[0m\n", paddr);
     fflush(stdout);  
 	memcpy(&ret, hw_mem + paddr, len);
+	printf("\e[0;31mret: %x\e[0m\n", ret);
+    fflush(stdout);  
 	return ret;
 }
 
