@@ -11,6 +11,8 @@ uint8_t hw_mem[MEM_SIZE_B];
 uint32_t hw_mem_read(paddr_t paddr, size_t len)
 {
 	uint32_t ret = 0;
+    printf("\e[0;31mpaddr: %d\e[0m\n", paddr);
+    fflush(stdout);  
 	memcpy(&ret, hw_mem + paddr, len);
 	return ret;
 }
@@ -52,10 +54,7 @@ uint32_t laddr_read(laddr_t laddr, size_t len)
     // printf("\e[0;31mpe: %d, pg: %d\e[0m\n", cpu.cr0.pe, cpu.cr0.pg);
     // fflush(stdout);  
     // printf("\e[0;31mread_addr_before: %x\e[0m\n", paddr);
-    fflush(stdout);  
     if(cpu.cr0.pe && cpu.cr0.pg) {
-        printf("\e[0;31mfuck: %x\e[0m\n", paddr);
-        fflush(stdout);  
         if((laddr & 0x00000fff) + len > 0x1000) {   //处理跨页的情况
             uint32_t next_len = (laddr & 0x00000fff) + len - 0x1000;
             uint32_t now_len = len - next_len;
@@ -65,8 +64,6 @@ uint32_t laddr_read(laddr_t laddr, size_t len)
             return res;
         } else {
             paddr = page_translate(laddr);
-            printf("\e[0;31mread_addr_latter: %x\e[0m\n", paddr);
-            fflush(stdout);     
             return paddr_read(paddr, len);
         }
     } else {
