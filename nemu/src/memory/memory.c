@@ -51,7 +51,7 @@ uint32_t laddr_read(laddr_t laddr, size_t len)
     paddr_t paddr = laddr;
     // printf("\e[0;31mpe: %d, pg: %d\e[0m\n", cpu.cr0.pe, cpu.cr0.pg);
     // fflush(stdout);  
-    printf("\e[0;31mread_addr_before: %x\e[0m\n", paddr);
+    // printf("\e[0;31mread_addr_before: %x\e[0m\n", paddr);
     fflush(stdout);  
     if(cpu.cr0.pe && cpu.cr0.pg) {
         printf("\e[0;31mfuck: %x\e[0m\n", paddr);
@@ -108,7 +108,7 @@ uint32_t vaddr_read(vaddr_t vaddr, uint8_t sreg, size_t len) {
 	if(cpu.cr0.pe) {
 		laddr = segment_translate(vaddr, sreg);
 	}
-	printf("\e[0;31mvaddr: %x\e[0m\n", laddr);
+// 	printf("\e[0;31mvaddr: %x\e[0m\n", laddr);
     fflush(stdout);   
 	return laddr_read(laddr, len);
 #endif
