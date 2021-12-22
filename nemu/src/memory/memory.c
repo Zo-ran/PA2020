@@ -23,14 +23,12 @@ void hw_mem_write(paddr_t paddr, size_t len, uint32_t data)
 uint32_t paddr_read(paddr_t paddr, size_t len)
 {
 	uint32_t ret = 0;
-	
 #ifdef CACHE_ENABLED
 		ret = cache_read(paddr, len);
 #else
 		ret = hw_mem_read(paddr, len);
 #endif
 	return ret;
-
 }
 
 void paddr_write(paddr_t paddr, size_t len, uint32_t data)
@@ -46,12 +44,9 @@ void paddr_write(paddr_t paddr, size_t len, uint32_t data)
 uint32_t laddr_read(laddr_t laddr, size_t len)
 {
 #ifndef IA32_PAGE
-	return paddr_read(laddr, len);
+	return paddr_read(laddsr, len);
 #else
     paddr_t paddr = laddr;
-    // printf("\e[0;31mpe: %d, pg: %d\e[0m\n", cpu.cr0.pe, cpu.cr0.pg);
-    // fflush(stdout);  
-    // printf("\e[0;31mread_addr_before: %x\e[0m\n", paddr);
     if(cpu.cr0.pe && cpu.cr0.pg) {
         if((laddr & 0x00000fff) + len > 0x1000) {   //处理跨页的情况
             uint32_t next_len = (laddr & 0x00000fff) + len - 0x1000;
@@ -74,7 +69,6 @@ void laddr_write(laddr_t laddr, size_t len, uint32_t data)
 {
 #ifndef IA32_PAGE
 	paddr_write(laddr, len, data);
-	
 #else
     paddr_t paddr = laddr;
     if(cpu.cr0.pe && cpu.cr0.pg) {
@@ -88,6 +82,8 @@ void laddr_write(laddr_t laddr, size_t len, uint32_t data)
             paddr = page_translate(laddr);
             paddr_write(paddr, len, data);
         }
+    } else {
+        paddr_write(paddr, len, data);
     }
 #endif
 }
@@ -98,13 +94,9 @@ uint32_t vaddr_read(vaddr_t vaddr, uint8_t sreg, size_t len) {
 	return laddr_read(vaddr, len);
 #else
 	uint32_t laddr = vaddr;
-// 	printf("\e[0;31mread before: %x\e[0m\n", laddr);
-//     fflush(stdout);   
 	if(cpu.cr0.pe) {
 		laddr = segment_translate(vaddr, sreg);
 	}
-// 	printf("\e[0;31mvaddr: %x\e[0m\n", laddr);
-    fflush(stdout);   
 	return laddr_read(laddr, len);
 #endif
 }
@@ -119,7 +111,7 @@ void vaddr_write(vaddr_t vaddr, uint8_t sreg, size_t len, uint32_t data)
 	if(cpu.cr0.pe) {
 		laddr = segment_translate(vaddr, sreg);
 	}
-	return laddr_write(laddr, len, data);
+	laddr_write(laddr, len, data);
 #endif
 }
 
