@@ -4,6 +4,8 @@
 // return the linear address from the virtual address and segment selector
 uint32_t segment_translate(uint32_t offset, uint8_t sreg)
 {
+	printf("\e[0;31mbase: %x\e[0m\n", cpu.segReg[sreg].base);
+    fflush(stdout);   
     return cpu.segReg[sreg].base + offset;
 }
 
