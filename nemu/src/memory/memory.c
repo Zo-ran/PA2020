@@ -49,8 +49,8 @@ uint32_t laddr_read(laddr_t laddr, size_t len)
 	return paddr_read(laddr, len);
 #else
     paddr_t paddr = laddr;
-    printf("\e[0;31mpe: %d, pg: %d\e[0m\n", cpu.cr0.pe, cpu.cr0.pg);
-    fflush(stdout);   
+    // printf("\e[0;31mpe: %d, pg: %d\e[0m\n", cpu.cr0.pe, cpu.cr0.pg);
+    // fflush(stdout);   
     if(cpu.cr0.pe && cpu.cr0.pg) {
         if((laddr & 0x00000fff) + len > 0x1000) {   //处理跨页的情况
             uint32_t next_len = (laddr & 0x00000fff) + len - 0x1000;
