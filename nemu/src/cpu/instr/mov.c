@@ -90,8 +90,6 @@ make_instr_func(mov_rm2s_w) {
 }
 
 make_instr_func(mov_c2r_l) {
-    printf("\e[0;31mfuck\e[0m\n");
-    fflush(stdout);   
     int len = 1;
     OPERAND r, creg;
     r.data_size = creg.data_size = 32;
@@ -103,12 +101,23 @@ make_instr_func(mov_c2r_l) {
 }
 
 make_instr_func(mov_r2c_l) {
-    int len = 1;
-    OPERAND r, creg;
-    r.data_size = creg.data_size = 32;
-    len += modrm_r_rm(eip + 1, &creg, &r);
-    operand_read(&creg);
-    creg.val = r.val;
-    operand_write(&creg);
+    // int len = 1;
+    // OPERAND r, creg;
+    // r.data_size = creg.data_size = 32;
+    // len += modrm_r_rm(eip + 1, &creg, &r);
+    // operand_read(&creg);
+    // creg.val = r.val;
+    // operand_write(&creg);
+    // return len;
+        int len=1;
+    OPERAND c;
+    opr_src.data_size=32;
+    c.data_size=32;
+    len+=modrm_r_rm(eip+1,&c,&opr_src);
+    c.type=OPR_CREG;
+    operand_read(&opr_src);
+    c.val=opr_src.val;
+    operand_write(&c);
+    //load_sreg(1);
     return len;
 }
