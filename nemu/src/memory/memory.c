@@ -1,10 +1,10 @@
 #include "nemu.h"
 #include "cpu/cpu.h"
-#include "cpu/instr.h"
 #include "memory/memory.h"
 #include "device/mm_io.h"
 #include <memory.h>
 #include <stdio.h>
+#include "memory/mmu/cache.h"
 
 uint8_t hw_mem[MEM_SIZE_B];
 
@@ -23,106 +23,89 @@ void hw_mem_write(paddr_t paddr, size_t len, uint32_t data)
 uint32_t paddr_read(paddr_t paddr, size_t len)
 {
 	uint32_t ret = 0;
+	
 #ifdef CACHE_ENABLED
-    ret=cache_read(paddr,len);
+		ret = cache_read(paddr, len);
 #else
-#ifndef HAS_DEVICE_VGA
-	ret = hw_mem_read(paddr, len);
-#else
-    if(is_mmio(paddr)!=-1)
-        ret=mmio_read(paddr,len,is_mmio(paddr));
-    else
-        ret=hw_mem_read(paddr,len);
-#endif
+		ret = hw_mem_read(paddr, len);
 #endif
 	return ret;
+
 }
 
 void paddr_write(paddr_t paddr, size_t len, uint32_t data)
 {
 #ifdef CACHE_ENABLED
-    cache_write(paddr,len,data);
+		cache_write(paddr, len, data);
 #else
-#ifndef HAS_DEVICE_VGA
-	hw_mem_write(paddr, len, data);
-#else
-    if(is_mmio(paddr)!=-1)
-        mmio_write(paddr,len,data,is_mmio(paddr));
-    else
-        hw_mem_write(paddr,len,data);
+		hw_mem_write(paddr, len, data);
 #endif
-#endif
+
 }
 
 uint32_t laddr_read(laddr_t laddr, size_t len)
 {
-    assert(len==1||len==2||len==4);
-    //printf("\n%d\n%d\n",cpu.cr0.pe,cpu.cr0.pg);
-    /*if(cpu.cr0.pe==0)
-    {
-        printf("\n%d\n",cpu.eip);
-    }*/
-	if(cpu.cr0.pe&&cpu.cr0.pg)
-	{
-	    if(laddr+len-1>(laddr&0xfffff000)+0x1000-1)
-	    {
-	        laddr_t newladdr=(laddr&0xfffff000)+0x1000;
-	        size_t newlen=laddr+len-1-((laddr&0xfffff000)+0x1000-1);
-	        paddr_t hwaddr=page_translate(laddr);
-	        paddr_t newhwaddr=page_translate(newladdr);
-	        uint32_t final=0;
-	        final=paddr_read(hwaddr,len-newlen);
-	        final+=(paddr_read(newhwaddr,newlen)<<((len-newlen)*8));
-	        return final;
-	    }
-	    else
-	    {
-	        paddr_t hwaddr=page_translate(laddr);
-	        return paddr_read(hwaddr,len);
+#ifndef IA32_PAGE
+	return paddr_read(laddr, len);
+#else
+    paddr_t paddr = laddr;
+    // printf("\e[0;31mpe: %d, pg: %d\e[0m\n", cpu.cr0.pe, cpu.cr0.pg);
+    // fflush(stdout);  
+    // printf("\e[0;31mread_addr_before: %x\e[0m\n", paddr);
+    if(cpu.cr0.pe && cpu.cr0.pg) {
+        if((laddr & 0x00000fff) + len > 0x1000) {   //处理跨页的情况
+            uint32_t next_len = (laddr & 0x00000fff) + len - 0x1000;
+            uint32_t now_len = len - next_len;
+            laddr_t next_laddr = (laddr & 0xfffff000) + 0x1000;
+            uint32_t res = paddr_read(page_translate(laddr), now_len);
+            res += (paddr_read(page_translate(next_laddr), next_len) << (now_len * 8));
+            return res;
+        } else {
+            paddr = page_translate(laddr);
+            return paddr_read(paddr, len);
         }
-	}
-	else
-	    return paddr_read(laddr,len);
-	return paddr_read(laddr,len);
+    } else {
+        return paddr_read(laddr, len);
+    }
+#endif
 }
 
 void laddr_write(laddr_t laddr, size_t len, uint32_t data)
 {
-    assert(len==1||len==2||len==4);
-    //printf("%d\n%d\n",cpu.cr0.pe,cpu.cr0.pg);
-	if(cpu.cr0.pe&&cpu.cr0.pg)
-	{
-	    if(laddr+len-1>(laddr&0xfffff000)+0x1000-1)
-	    {
-	        laddr_t newladdr=(laddr&0xfffff000)+0x1000;
-	        size_t newlen=laddr+len-1-((laddr&0xfffff000)+0x1000-1);
-	        paddr_t hwaddr=page_translate(laddr);
-	        paddr_t newhwaddr=page_translate(newladdr);
-	        paddr_write(hwaddr,len-newlen,((data<<8*(newlen))>>(8*newlen)));
-	        paddr_write(newhwaddr,newlen,(data>>(8*(len-newlen))));
-	    }
-	    else
-	    {
-	        paddr_t hwaddr=page_translate(laddr);
-	        paddr_write(hwaddr,len,data);
-	    }
-	}
-	else
-	    paddr_write(laddr,len,data);
+#ifndef IA32_PAGE
+	paddr_write(laddr, len, data);
+	
+#else
+    paddr_t paddr = laddr;
+    if(cpu.cr0.pe && cpu.cr0.pg) {
+        if((laddr & 0x00000fff) + len > 0x1000) {   //处理跨页的情况
+            uint32_t next_len = (laddr & 0x00000fff) + len - 0x1000;
+            uint32_t now_len = len - next_len;
+            laddr_t next_laddr = (laddr & 0xfffff000) + 0x1000;
+            paddr_write(page_translate(laddr), now_len, data & (0xffffffff >> (32 - now_len)));
+	        paddr_write(page_translate(next_laddr), next_len, data >> (8 * now_len));
+        } else {
+            paddr = page_translate(laddr);
+            paddr_write(paddr, len, data);
+        }
+    }
+#endif
 }
 
-uint32_t vaddr_read(vaddr_t vaddr, uint8_t sreg, size_t len)
-{
+uint32_t vaddr_read(vaddr_t vaddr, uint8_t sreg, size_t len) {
 	assert(len == 1 || len == 2 || len == 4);
 #ifndef IA32_SEG
 	return laddr_read(vaddr, len);
 #else
-    uint32_t laddr=vaddr;
-    if(cpu.cr0.pe)
-    {
-        laddr=segment_translate(vaddr,sreg);
-    }
-    return laddr_read(laddr,len);
+	uint32_t laddr = vaddr;
+// 	printf("\e[0;31mread before: %x\e[0m\n", laddr);
+//     fflush(stdout);   
+	if(cpu.cr0.pe) {
+		laddr = segment_translate(vaddr, sreg);
+	}
+// 	printf("\e[0;31mvaddr: %x\e[0m\n", laddr);
+    fflush(stdout);   
+	return laddr_read(laddr, len);
 #endif
 }
 
@@ -132,12 +115,11 @@ void vaddr_write(vaddr_t vaddr, uint8_t sreg, size_t len, uint32_t data)
 #ifndef IA32_SEG
 	laddr_write(vaddr, len, data);
 #else
-    uint32_t laddr=vaddr;
-    if(cpu.cr0.pe)
-    {
-        laddr=segment_translate(vaddr,sreg);
-    }
-    laddr_write(laddr,len,data);
+	uint32_t laddr = vaddr;
+	if(cpu.cr0.pe) {
+		laddr = segment_translate(vaddr, sreg);
+	}
+	return laddr_write(laddr, len, data);
 #endif
 }
 
@@ -145,9 +127,8 @@ void init_mem()
 {
 	// clear the memory on initiation
 	memset(hw_mem, 0, MEM_SIZE_B);
-
 #ifdef CACHE_ENABLED
-    init_cache();
+	init_cache();
 #endif
 
 #ifdef TLB_ENABLED
